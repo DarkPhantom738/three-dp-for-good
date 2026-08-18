@@ -1,0 +1,21 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "three-dp-for-good",
+  "account_id": "ef26b6e655a51ab4f17bffc1950c0039",
+  "compatibility_date": "2026-08-17",
+  "compatibility_flags": ["nodejs_compat"],
+  "main": "./worker/index.ts",
+  "workers_dev": true,
+  "preview_urls": true,
+  "routes": [
+    { "pattern": "3dpforgood.org", "custom_domain": true },
+    { "pattern": "www.3dpforgood.org", "custom_domain": true }
+  ],
+  "assets": {
+    "not_found_handling": "none",
+    "binding": "ASSETS"
+  },
+  "images": {
+    "binding": "IMAGES"
+  }
+}
