@@ -14,12 +14,12 @@ const navItems: Array<{ id: View; label: string }> = [
 ];
 
 const galleryImages = [
-  { src: "/assets/class-workshop-01.png", alt: "Students learning CAD together during a 3DP for Good workshop" },
-  { src: "/assets/class-workshop-02.png", alt: "" },
-  { src: "/assets/class-workshop-03.png", alt: "" },
-  { src: "/assets/class-workshop-05.png", alt: "" },
-  { src: "/assets/class-workshop-06.png", alt: "" },
-  { src: "/assets/class-workshop-07.png", alt: "" },
+  { src: "/assets/class-workshop-01.jpg", alt: "Students learning CAD together during a 3DP for Good workshop" },
+  { src: "/assets/class-workshop-02.jpg", alt: "" },
+  { src: "/assets/class-workshop-03.jpg", alt: "" },
+  { src: "/assets/class-workshop-05.jpg", alt: "" },
+  { src: "/assets/class-workshop-06.jpg", alt: "" },
+  { src: "/assets/class-workshop-07.jpg", alt: "" },
 ];
 
 function Wordmark({ footer = false }: { footer?: boolean }) {
@@ -156,7 +156,9 @@ function ModelViewer({ file, label }: { file: string; label: string }) {
 
   const handlePointerDown = (event: React.PointerEvent<HTMLCanvasElement>) => {
     dragRef.current = { x: event.clientX, y: event.clientY };
-    event.currentTarget.setPointerCapture(event.pointerId);
+    // Let touch browsers hand vertical gestures to the page scroller. Mouse and
+    // pen input can keep capture for uninterrupted model rotation.
+    if (event.pointerType !== "touch") event.currentTarget.setPointerCapture(event.pointerId);
   };
   const handlePointerMove = (event: React.PointerEvent<HTMLCanvasElement>) => {
     if (!dragRef.current) return;

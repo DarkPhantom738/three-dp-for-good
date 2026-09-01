@@ -31,7 +31,7 @@ test("ships the reference media and downloadable models", async () => {
   const assets = [
     "../public/assets/bach-logo.png",
     "../public/assets/printer-loop.mp4",
-    "../public/assets/class-workshop-01.png",
+    "../public/assets/class-workshop-01.jpg",
     "../public/assets/ohlone-cad-club.png",
     "../public/assets/kaavin-prasanna.png",
     "../public/assets/dr-ramchandani.png",
