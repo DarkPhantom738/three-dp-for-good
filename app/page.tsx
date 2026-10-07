@@ -1,17 +1,8 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-
-type View = "home" | "work" | "classes" | "sponsors" | "team" | "contact";
-
-const navItems: Array<{ id: View; label: string }> = [
-  { id: "home", label: "Home" },
-  { id: "work", label: "Our work" },
-  { id: "classes", label: "Classes" },
-  { id: "sponsors", label: "Sponsors" },
-  { id: "team", label: "About the team" },
-  { id: "contact", label: "Contact" },
-];
+import Link from "next/link";
+import { SiteNav, type View } from "./site-nav";
 
 const galleryImages = [
   { src: "/assets/class-workshop-01.jpg", alt: "Students learning CAD together during a 3DP for Good workshop" },
@@ -178,23 +169,9 @@ function ModelViewer({ file, label }: { file: string; label: string }) {
   );
 }
 
-function SiteNav({ view, onNavigate }: { view: View; onNavigate: (next: View) => void }) {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const navigate = (next: View) => { setMenuOpen(false); onNavigate(next); };
-  return (
-    <header className="site-nav">
-      <button className="wordmark" type="button" aria-label="3DP for Good home" onClick={() => navigate("home")}><span>3DP FOR GOOD<span className="wordmark-dot">.</span></span></button>
-      <button className="menu-toggle" type="button" aria-expanded={menuOpen} aria-controls="main-navigation" onClick={() => setMenuOpen((value) => !value)}><span>Menu</span><span className="menu-lines" aria-hidden="true"><i /><i /></span></button>
-      <nav id="main-navigation" className={`main-nav${menuOpen ? " is-open" : ""}`} aria-label="Main navigation">
-        {navItems.map((item) => <button key={item.id} type="button" className={view === item.id ? "active" : ""} onClick={() => navigate(item.id)}>{item.label}</button>)}
-      </nav>
-    </header>
-  );
-}
-
 function HomeView({ onNavigate }: { onNavigate: (next: View) => void }) {
   return (
-    <section className="tab-page home-page" aria-labelledby="home-title">
+    <section className="tab-page home-page has-announcement" aria-labelledby="home-title">
       <PageLabel number="01" title="Home" aside="Patient-centered making" />
       <div className="home-layout">
         <div className="home-copy">
@@ -256,7 +233,7 @@ function TeamView() {
     <section className="tab-page team-page" aria-labelledby="team-title">
       <PageLabel number="05" title="About the team" aside="The people behind the work" />
       <div className="team-heading"><p className="eyebrow">Meet the team</p><h2 id="team-title">Founders</h2></div>
-      <div className="founder-grid"><article className="founder-card"><div className="founder-photo"><img alt="Kaavin Prasanna" src="/assets/kaavin-prasanna.png" /></div><p>01 / Founder</p><h3>Kaavin Prasanna</h3></article><article className="founder-card"><div className="founder-photo"><img alt="Aniket Mangalampalli" src="/assets/aniket-mangalampalli.png" /></div><p>02 / Founder</p><h3>Aniket Mangalampalli</h3></article><article className="founder-card"><div className="founder-photo"><img alt="Shaan Ramchandani" src="/assets/shaan-ramchandani.png" /></div><p>03 / Founder</p><h3>Shaan Ramchandani</h3></article><article className="founder-card"><div className="founder-photo founder-placeholder" aria-hidden="true"><span>A</span></div><p>04 / Founder</p><h3>Abheer</h3></article></div>
+      <div className="founder-grid"><article className="founder-card"><div className="founder-photo"><img alt="Kaavin Prasanna" src="/assets/kaavin-prasanna.png" /></div><p>01 / Founder</p><h3>Kaavin Prasanna</h3></article><article className="founder-card"><div className="founder-photo"><img alt="Aniket Mangalampalli" src="/assets/aniket-mangalampalli.png" /></div><p>02 / Founder</p><h3>Aniket Mangalampalli</h3></article><article className="founder-card"><div className="founder-photo"><img alt="Shaan Ramchandani" src="/assets/shaan-ramchandani.png" /></div><p>03 / Founder</p><h3>Shaan Ramchandani</h3></article><article className="founder-card"><div className="founder-photo founder-placeholder" aria-hidden="true"><span>A</span></div><p>04 / Founder</p><h3>Abheer Krishnanand</h3></article></div>
       <section className="chapter-leads" aria-labelledby="chapter-leads-title"><p className="eyebrow">Leading our local work</p><h2 id="chapter-leads-title">Chapter Leads</h2><div className="chapter-lead-row"><div className="founder-photo founder-placeholder chapter-lead-photo" aria-hidden="true"><span>A</span></div><span>Fremont</span><h3>Aryan Bachu</h3></div></section>
       <section className="advisor-section" aria-labelledby="advisor-title"><p className="eyebrow">Guiding the work</p><h2 id="advisor-title">Advisor</h2><div className="advisor-profile"><div className="founder-photo advisor-photo"><img alt="Dr. Ramchandani" src="/assets/dr-ramchandani.png" /></div><div><span>Advisor</span><h3>Dr. Ramchandani</h3></div></div></section>
     </section>
@@ -280,6 +257,19 @@ function ContactView() {
 
 export default function Home() {
   const [view, setView] = useState<View>("home");
-  const navigate = (next: View) => { setView(next); window.scrollTo({ top: 0, behavior: "instant" }); };
-  return <main className="site-shell"><SiteNav view={view} onNavigate={navigate} />{view === "home" && <HomeView onNavigate={navigate} />}{view === "work" && <WorkView onNavigate={navigate} />}{view === "classes" && <ClassesView />}{view === "sponsors" && <SponsorsView onNavigate={navigate} />}{view === "team" && <TeamView />}{view === "contact" && <ContactView />}</main>;
+  useEffect(() => {
+    const syncView = () => {
+      const candidate = window.location.hash.slice(1);
+      if (["home", "work", "classes", "sponsors", "team", "contact"].includes(candidate)) setView(candidate as View);
+    };
+    syncView();
+    window.addEventListener("popstate", syncView);
+    return () => window.removeEventListener("popstate", syncView);
+  }, []);
+  const navigate = (next: View) => {
+    window.history.pushState(null, "", next === "home" ? "/" : `/#${next}`);
+    setView(next);
+    window.scrollTo({ top: 0, behavior: "instant" });
+  };
+  return <main className="site-shell">{view === "home" && <Link className="home-announcement" href="/missions" aria-label="Masonic Homes mission. September 29, 2026. 40 plus aids given. Read the story."><span className="announcement-copy"><span className="announcement-title">A Masonic Homes mission</span><span className="announcement-facts" aria-hidden="true"><span className="announcement-fact-date">September 29, 2026</span><span className="announcement-fact-count">40+ aids given</span></span></span><span className="announcement-action"><span className="announcement-action-label">Read the story</span><Arrow /><img className="announcement-photo" src="/assets/masonic-banner.png" alt="" /></span></Link>}<SiteNav view={view} onNavigate={navigate} showAnnouncement={view === "home"} />{view === "home" && <HomeView onNavigate={navigate} />}{view === "work" && <WorkView onNavigate={navigate} />}{view === "classes" && <ClassesView />}{view === "sponsors" && <SponsorsView onNavigate={navigate} />}{view === "team" && <TeamView />}{view === "contact" && <ContactView />}</main>;
 }
