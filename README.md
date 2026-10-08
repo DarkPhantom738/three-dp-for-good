@@ -16,7 +16,7 @@ npm run dev
 npm run build
 ```
 
-This starter does not use `wrangler.jsonc`.
+Production runs on the Cloudflare Worker configured in `wrangler.jsonc`. IONOS is the domain registrar; `3dpforgood.org` delegates DNS to Cloudflare. Cloudflare routes the apex and `www` hostnames to the Worker. GitHub Actions deploys pushes to `main` using the repository secret `CLOUDFLARE_API_TOKEN`.
 
 ## Included Shape
 
@@ -91,7 +91,9 @@ actions tied to the current ChatGPT user. Leave public content anonymous.
 
 - `npm run dev`: start local development
 - `npm run build`: verify the vinext build output
-- `npm test`: build the starter and verify its rendered loading skeleton
+- `npm test`: build the site and run the rendered HTML and responsive layout tests
+- `npm run lint`: check the source with ESLint
+- `npm run deploy`: build and publish the Cloudflare Worker
 - `npm run db:generate`: generate Drizzle migrations after schema changes
 
 ## Learn More
