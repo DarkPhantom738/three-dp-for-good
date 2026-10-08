@@ -23,6 +23,8 @@ const eslintConfig = defineConfig([
   jsxA11y.flatConfigs.recommended,
   next.configs["core-web-vitals"],
   {
+    // vinext's Link currently throws during client navigation; native anchors keep routes usable.
+    rules: { "@next/next/no-html-link-for-pages": "off" },
     languageOptions: {
       globals: {
         ...globals.browser,

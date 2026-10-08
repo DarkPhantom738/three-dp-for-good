@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { SiteNav } from "../site-nav";
 
 export const metadata: Metadata = {
@@ -39,7 +38,7 @@ export default function ArticlesPage() {
         </header>
         <section className="mission-cards" aria-label="Mission stories">
           {missions.map((mission) => (
-            <Link className="mission-card" href={mission.href} key={mission.href}>
+            <a className="mission-card" href={mission.href} key={mission.href}>
               <div className={`mission-card-visual ${mission.visual}`} aria-hidden="true">
                 {mission.visual === "masonic" ? <img src="/assets/masonic-visit-01.jpg" alt="" /> : <><span className="mission-visual-index">01 / LISTENING SESSION</span><strong>Design starts<br />with a conversation.</strong><span className="mission-visual-mark">A</span></>}
               </div>
@@ -50,13 +49,13 @@ export default function ArticlesPage() {
                 <p>{mission.summary}</p>
                 <span className="mission-card-link">Read the mission <span aria-hidden="true">↗</span></span>
               </div>
-            </Link>
+            </a>
           ))}
         </section>
       </main>
       <footer className="footer article-footer">
-        <div><Link className="wordmark footer-wordmark" href="/"><span>3DP FOR GOOD<span className="wordmark-dot">.</span></span></Link><p>Tools for more comfortable,<br />capable, independent care.</p></div>
-        <div className="footer-right"><span>© 2026 3DP for Good</span><Link href="/">Back to Home ↑</Link></div>
+        <div><a className="wordmark footer-wordmark" href="/"><span>3DP FOR GOOD<span className="wordmark-dot">.</span></span></a><p>Tools for more comfortable,<br />capable, independent care.</p></div>
+        <div className="footer-right"><span>© 2026 3DP for Good</span><a href="/">Back to Home ↑</a></div>
       </footer>
     </div>
   );

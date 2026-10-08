@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { SiteNav } from "../site-nav";
 
 type MissionArticleProps = {
@@ -31,11 +30,11 @@ export function MissionArticle({ organization, title, date, byline, introduction
             </section>
           ))}
         </div>
-        <Link className="back-to-missions" href="/articles">← All mission stories</Link>
+        <a className="back-to-missions" href="/articles">← All mission stories</a>
       </main>
       <footer className="footer article-footer">
-        <div><Link className="wordmark footer-wordmark" href="/"><span>3DP FOR GOOD<span className="wordmark-dot">.</span></span></Link><p>Tools for more comfortable,<br />capable, independent care.</p></div>
-        <div className="footer-right"><span>© 2026 3DP for Good</span><Link href="/">Back to Home ↑</Link></div>
+        <div><a className="wordmark footer-wordmark" href="/"><span>3DP FOR GOOD<span className="wordmark-dot">.</span></span></a><p>Tools for more comfortable,<br />capable, independent care.</p></div>
+        <div className="footer-right"><span>© 2026 3DP for Good</span><a href="/">Back to Home ↑</a></div>
       </footer>
     </div>
   );

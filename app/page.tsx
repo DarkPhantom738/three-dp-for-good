@@ -1,7 +1,6 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import Link from "next/link";
 import { SiteNav, type View } from "./site-nav";
 
 const galleryImages = [
@@ -270,5 +269,5 @@ export default function Home() {
     setView(next);
     window.scrollTo({ top: 0, behavior: "instant" });
   };
-  return <main className="site-shell">{view === "home" && <Link className="home-announcement" href="/missions" aria-label="Masonic Homes mission. September 29, 2026. 40 plus aids given. Read the story."><span className="announcement-copy"><span className="announcement-title">A Masonic Homes mission</span><span className="announcement-facts" aria-hidden="true"><span className="announcement-fact-date">September 29, 2026</span><span className="announcement-fact-count">40+ aids given</span></span></span><span className="announcement-action"><span className="announcement-action-label">Read the story</span><Arrow /><img className="announcement-photo" src="/assets/masonic-banner.png" alt="" /></span></Link>}<SiteNav view={view} onNavigate={navigate} showAnnouncement={view === "home"} />{view === "home" && <HomeView onNavigate={navigate} />}{view === "work" && <WorkView onNavigate={navigate} />}{view === "classes" && <ClassesView />}{view === "sponsors" && <SponsorsView onNavigate={navigate} />}{view === "team" && <TeamView />}{view === "contact" && <ContactView />}</main>;
+  return <main className="site-shell">{view === "home" && <a className="home-announcement" href="/missions" aria-label="Masonic Homes mission. September 29, 2026. 40 plus aids given. Read the story."><span className="announcement-copy"><span className="announcement-title">A Masonic Homes mission</span><span className="announcement-facts" aria-hidden="true"><span className="announcement-fact-date">September 29, 2026</span><span className="announcement-fact-count">40+ aids given</span></span></span><span className="announcement-action"><span className="announcement-action-label">Read the story</span><Arrow /><img className="announcement-photo" src="/assets/masonic-banner.png" alt="" /></span></a>}<SiteNav view={view} onNavigate={navigate} showAnnouncement={view === "home"} />{view === "home" && <HomeView onNavigate={navigate} />}{view === "work" && <WorkView onNavigate={navigate} />}{view === "classes" && <ClassesView />}{view === "sponsors" && <SponsorsView onNavigate={navigate} />}{view === "team" && <TeamView />}{view === "contact" && <ContactView />}</main>;
 }

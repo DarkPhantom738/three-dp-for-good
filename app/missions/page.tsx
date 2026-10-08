@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { SiteNav } from "../site-nav";
 
 export const metadata: Metadata = {
@@ -33,11 +32,11 @@ export default function MissionsPage() {
         <section className="article-gallery" aria-label="Photos from our Masonic Homes visit">
           {visitPhotos.map((photo, index) => <figure key={photo.src}><img src={photo.src} alt={photo.alt} loading={index > 1 ? "lazy" : "eager"} /></figure>)}
         </section>
-        <Link className="back-to-missions" href="/articles">Explore all articles →</Link>
+        <a className="back-to-missions" href="/articles">Explore all articles →</a>
       </main>
       <footer className="footer article-footer">
-        <div><Link className="wordmark footer-wordmark" href="/"><span>3DP FOR GOOD<span className="wordmark-dot">.</span></span></Link><p>Tools for more comfortable,<br />capable, independent care.</p></div>
-        <div className="footer-right"><span>© 2026 3DP for Good</span><Link href="/">Back to Home ↑</Link></div>
+        <div><a className="wordmark footer-wordmark" href="/"><span>3DP FOR GOOD<span className="wordmark-dot">.</span></span></a><p>Tools for more comfortable,<br />capable, independent care.</p></div>
+        <div className="footer-right"><span>© 2026 3DP for Good</span><a href="/">Back to Home ↑</a></div>
       </footer>
     </div>
   );
