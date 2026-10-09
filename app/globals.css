@@ -108,6 +108,12 @@ a:hover .arrow, button:hover .arrow { transform: translate(2px, -2px); }
 .design-card-copy { display: flex; grid-area: 2 / 2 / 4; flex-direction: column; justify-content: space-between; gap: .9rem; min-height: min-content; padding: 1rem; }
 .design-card h3 { max-width: 14rem; font-size: clamp(1.5rem, 2.4vw, 2.25rem); font-weight: 800; line-height: .9; }
 .design-card-copy p { max-width: 30rem; margin-top: .6rem; font-size: 1.18rem; line-height: 1.36; }
+.design-photo { display: block; width: 100%; height: 100%; object-fit: cover; }
+.design-card-copy .design-note { font-size: .87rem; line-height: 1.5; color: #505357; }
+.design-card-copy .design-credit { padding-top: .8rem; border-top: 1px solid var(--line); font-size: .76rem; line-height: 1.6; color: #505357; }
+.design-credit a { color: var(--blue-dark); text-decoration: underline; text-underline-offset: .15em; }
+.model-viewer canvas:focus-visible { outline: 2px solid var(--blue); outline-offset: -3px; }
+.model-mode-toggle:disabled { cursor: wait; opacity: .6; }
 .design-card-foot { display: flex; align-items: center; justify-content: space-between; padding-top: .65rem; border-top: 1px solid var(--line); font-family: var(--font-geist-mono), monospace; font-size: .64rem; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; }
 .design-card-foot button { padding: 0; border: 0; color: var(--blue); background: none; font-family: inherit; font-size: inherit; font-weight: inherit; letter-spacing: inherit; text-transform: inherit; }
 .design-card-foot button:hover { color: var(--ink); }
@@ -296,6 +302,7 @@ a:hover .arrow, button:hover .arrow { transform: translate(2px, -2px); }
 @media (prefers-reduced-motion: reduce) { .work-heading h2 em, .contact-hero h2 em { animation: none; } .class-gallery figure { transition: none; } .home-announcement, .site-nav.has-announcement, .home-page.has-announcement, .announcement-facts > span { animation: none; } .home-announcement { transform: none; } .announcement-fact-date { opacity: 1; transform: none; } .announcement-fact-count { opacity: 0; } .site-nav.has-announcement { top: var(--announcement-height); } .home-page.has-announcement { padding-top: calc(6.8rem + var(--announcement-height)); } }
 @media (pointer: coarse), (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 @media (width <= 1050px) {
+  .design-grid { grid-template-columns: 1fr; }
   .printed-stat { flex-basis: 32%; }
   .mission-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .founder-card { flex-basis: calc((100% - 2.5rem) / 3); }

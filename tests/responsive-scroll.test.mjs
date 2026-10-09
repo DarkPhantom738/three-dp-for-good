@@ -3,7 +3,7 @@ import { readFile } from "node:fs/promises";
 import test from "node:test";
 
 const css = await readFile(new URL("../app/globals.css", import.meta.url), "utf8");
-const pageSource = await readFile(new URL("../app/page.tsx", import.meta.url), "utf8");
+const viewerSource = await readFile(new URL("../app/model-viewer.tsx", import.meta.url), "utf8");
 
 function rule(selector) {
   const escapedSelector = selector.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
@@ -21,7 +21,7 @@ test("full-page views grow with their content instead of clipping it", () => {
 
 test("interactive models preserve vertical touch scrolling", () => {
   assert.match(rule(".model-viewer canvas"), /touch-action:\s*pan-y pinch-zoom/);
-  assert.match(pageSource, /pointerType\s*!==\s*"touch"/);
+  assert.match(viewerSource, /pointerType\s*!==\s*"touch"/);
 });
 
 test("horizontal clipping does not create a nested vertical scroller", () => {

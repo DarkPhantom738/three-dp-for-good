@@ -1,6 +1,7 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
+import { ModelViewer } from "./model-viewer";
 import { SiteNav, type View } from "./site-nav";
 
 const galleryImages = [
@@ -26,146 +27,6 @@ function PageLabel({ number, title, aside }: { number: string; title: string; as
 
 function Arrow() {
   return <span aria-hidden="true" className="arrow">↗</span>;
-}
-
-type Point3 = [number, number, number];
-type Triangle = [Point3, Point3, Point3];
-
-function parseStl(buffer: ArrayBuffer): Triangle[] {
-  const bytes = new Uint8Array(buffer);
-  const view = new DataView(buffer);
-  const triangleCount = bytes.length >= 84 ? view.getUint32(80, true) : 0;
-  const isBinary = triangleCount > 0 && 84 + triangleCount * 50 <= bytes.length;
-  if (isBinary) {
-    const triangles: Triangle[] = [];
-    let offset = 84;
-    for (let i = 0; i < triangleCount; i += 1) {
-      offset += 12;
-      const points: Point3[] = [];
-      for (let j = 0; j < 3; j += 1) {
-        points.push([view.getFloat32(offset, true), view.getFloat32(offset + 4, true), view.getFloat32(offset + 8, true)]);
-        offset += 12;
-      }
-      triangles.push(points as Triangle);
-      offset += 2;
-    }
-    return triangles;
-  }
-  const text = new TextDecoder().decode(bytes);
-  const vertices = [...text.matchAll(/vertex\s+([-+\d.eE]+)\s+([-+\d.eE]+)\s+([-+\d.eE]+)/g)].map(
-    (match) => [Number(match[1]), Number(match[2]), Number(match[3])] as Point3,
-  );
-  const triangles: Triangle[] = [];
-  for (let i = 0; i + 2 < vertices.length; i += 3) triangles.push([vertices[i], vertices[i + 1], vertices[i + 2]]);
-  return triangles;
-}
-
-function ModelViewer({ file, label }: { file: string; label: string }) {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const trianglesRef = useRef<Triangle[]>([]);
-  const rotationRef = useRef({ x: -0.35, y: 0.55 });
-  const dragRef = useRef<{ x: number; y: number } | null>(null);
-  const [solid, setSolid] = useState(true);
-  const [loaded, setLoaded] = useState(false);
-
-  useEffect(() => {
-    let mounted = true;
-    fetch(`/assets/${file}`)
-      .then((response) => response.arrayBuffer())
-      .then((buffer) => {
-        if (!mounted) return;
-        trianglesRef.current = parseStl(buffer);
-        setLoaded(true);
-      })
-      .catch(() => setLoaded(false));
-    return () => { mounted = false; };
-  }, [file]);
-
-  const draw = useCallback(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const bounds = canvas.getBoundingClientRect();
-    const dpr = window.devicePixelRatio || 1;
-    const width = Math.max(1, Math.round(bounds.width * dpr));
-    const height = Math.max(1, Math.round(bounds.height * dpr));
-    if (canvas.width !== width || canvas.height !== height) {
-      canvas.width = width;
-      canvas.height = height;
-    }
-    const context = canvas.getContext("2d");
-    if (!context) return;
-    context.setTransform(dpr, 0, 0, dpr, 0, 0);
-    context.clearRect(0, 0, bounds.width, bounds.height);
-    context.fillStyle = "#e6e5df";
-    context.fillRect(0, 0, bounds.width, bounds.height);
-    context.strokeStyle = "rgba(82,103,201,.18)";
-    context.lineWidth = 1;
-    for (let x = 0; x < bounds.width; x += 20) { context.beginPath(); context.moveTo(x, 0); context.lineTo(x, bounds.height); context.stroke(); }
-    for (let y = 0; y < bounds.height; y += 20) { context.beginPath(); context.moveTo(0, y); context.lineTo(bounds.width, y); context.stroke(); }
-    const triangles = trianglesRef.current;
-    if (!triangles.length) {
-      context.fillStyle = "#5267c9";
-      context.font = "800 11px SFMono-Regular, Consolas, monospace";
-      context.textAlign = "center";
-      context.fillText("LOADING MODEL", bounds.width / 2, bounds.height / 2);
-      return;
-    }
-    const points = triangles.flat();
-    const mins: Point3 = [Infinity, Infinity, Infinity];
-    const maxs: Point3 = [-Infinity, -Infinity, -Infinity];
-    for (const point of points) for (let axis = 0; axis < 3; axis += 1) { mins[axis] = Math.min(mins[axis], point[axis]); maxs[axis] = Math.max(maxs[axis], point[axis]); }
-    const center: Point3 = [(mins[0] + maxs[0]) / 2, (mins[1] + maxs[1]) / 2, (mins[2] + maxs[2]) / 2];
-    const span = Math.max(maxs[0] - mins[0], maxs[1] - mins[1], maxs[2] - mins[2]) || 1;
-    const scale = Math.min(bounds.width, bounds.height) * 0.72 / span;
-    const { x: rotX, y: rotY } = rotationRef.current;
-    const project = (point: Point3) => {
-      const x = point[0] - center[0]; const y = point[1] - center[1]; const z = point[2] - center[2];
-      const cy = Math.cos(rotY); const sy = Math.sin(rotY); const cx = Math.cos(rotX); const sx = Math.sin(rotX);
-      const x1 = x * cy - z * sy; const z1 = x * sy + z * cy; const y1 = y * cx - z1 * sx; const z2 = y * sx + z1 * cx;
-      return { x: bounds.width / 2 + x1 * scale, y: bounds.height / 2 - y1 * scale, z: z2 };
-    };
-    const projected = triangles.map((triangle) => {
-      const projectedTriangle = triangle.map(project);
-      return { triangle: projectedTriangle, depth: projectedTriangle.reduce((sum, point) => sum + point.z, 0) / 3 };
-    }).sort((a, b) => a.depth - b.depth);
-    for (const item of projected) {
-      const [a, b, c] = item.triangle;
-      context.beginPath(); context.moveTo(a.x, a.y); context.lineTo(b.x, b.y); context.lineTo(c.x, c.y); context.closePath();
-      if (solid) { const shade = Math.max(0, Math.min(25, Math.round((item.depth / span) * 18))); context.fillStyle = `rgb(${244 - shade}, ${242 - shade}, ${235 - shade})`; context.fill(); }
-      context.strokeStyle = solid ? "#151719" : "#5267c9"; context.lineWidth = solid ? 0.65 : 0.9; context.stroke();
-    }
-  }, [solid]);
-
-  useEffect(() => {
-    draw();
-    const handleResize = () => draw();
-    window.addEventListener("resize", handleResize);
-    const frame = window.requestAnimationFrame(() => draw());
-    return () => { window.removeEventListener("resize", handleResize); window.cancelAnimationFrame(frame); };
-  }, [draw, loaded]);
-
-  const handlePointerDown = (event: React.PointerEvent<HTMLCanvasElement>) => {
-    dragRef.current = { x: event.clientX, y: event.clientY };
-    // Let touch browsers hand vertical gestures to the page scroller. Mouse and
-    // pen input can keep capture for uninterrupted model rotation.
-    if (event.pointerType !== "touch") event.currentTarget.setPointerCapture(event.pointerId);
-  };
-  const handlePointerMove = (event: React.PointerEvent<HTMLCanvasElement>) => {
-    if (!dragRef.current) return;
-    const deltaX = event.clientX - dragRef.current.x; const deltaY = event.clientY - dragRef.current.y;
-    dragRef.current = { x: event.clientX, y: event.clientY };
-    rotationRef.current.y += deltaX * 0.012; rotationRef.current.x += deltaY * 0.012; draw();
-  };
-  const stopDragging = () => { dragRef.current = null; };
-
-  return (
-    <div className="model-viewer">
-      <canvas ref={canvasRef} aria-label={label} onPointerDown={handlePointerDown} onPointerMove={handlePointerMove} onPointerUp={stopDragging} onPointerCancel={stopDragging} onPointerLeave={stopDragging} />
-      <span className="model-hint">Drag to rotate</span>
-      <span className="model-badge">Actual STL · 1-bit study</span>
-      <button className="model-mode-toggle" type="button" aria-pressed={solid} onClick={() => setSolid((value) => !value)}>{solid ? "View solid" : "View wireframe"}</button>
-    </div>
-  );
 }
 
 function HomeView({ onNavigate }: { onNavigate: (next: View) => void }) {
@@ -196,16 +57,87 @@ function HomeView({ onNavigate }: { onNavigate: (next: View) => void }) {
   );
 }
 
+type WorkModel = {
+  name: string;
+  category: string;
+  description: string;
+  file?: string;
+  image?: string;
+  download: string;
+  downloadLabel: string;
+  note?: string;
+  credit?: { creator: string; url: string; license: string; licenseUrl: string };
+};
+
+const workModels: WorkModel[] = [
+  {
+    name: "Button hook + zipper pull",
+    category: "Dressing",
+    description: "A larger handle makes it easier to guide a button through its buttonhole or pull a zipper without pinching a small tab.",
+    file: "button-hook-zipper-pull.stl",
+    download: "/assets/button-hook-zipper-pull.stl",
+    downloadLabel: "Download STL",
+  },
+  {
+    name: "Book page holder",
+    category: "Reading",
+    description: "Keeps a book open without having to hold the pages apart with your fingers. It gives your hand a break while you read.",
+    file: "book-page-holder.stl",
+    download: "/assets/book-page-holder.stl",
+    downloadLabel: "Download STL",
+  },
+  {
+    name: "Motion sphere",
+    category: "Hand movement + fidget",
+    description: "Pull the linked rings apart, then press them back together. The repeated opening and closing gives your hands and fingers a simple movement to practise and doubles as a fidget activity.",
+    image: "/assets/motion-sphere.webp",
+    download: "/assets/motion-sphere-models.zip",
+    downloadLabel: "Download model set",
+    note: "Includes 22 STL parts and the creator’s assembly guide.",
+    credit: { creator: "kame", url: "https://www.printables.com/model/956821-expanding-rings-spheres", license: "CC BY-NC 4.0", licenseUrl: "https://creativecommons.org/licenses/by-nc/4.0/" },
+  },
+  {
+    name: "Extending reacher",
+    category: "Reaching",
+    description: "Squeezing the handles extends the scissor linkage and closes the jaws. We’re exploring this mechanism for picking up objects that are hard to reach.",
+    file: "extending-reacher-preview.stl",
+    download: "/assets/extending-reacher-models.zip",
+    downloadLabel: "Download CAD + STL",
+    note: "The scissor section extends from about 13.5 to 21.3 cm. Includes editable OpenSCAD, STL parts, and assembly instructions.",
+    credit: { creator: "Miloslav Brožek", url: "https://www.printables.com/model/1782336-lazy-tongs-snapping-dragon-extending-scissor-grabb", license: "CC BY-NC 4.0", licenseUrl: "https://creativecommons.org/licenses/by-nc/4.0/" },
+  },
+  {
+    name: "Sock guide",
+    category: "Dressing",
+    description: "Holds a sock open so you can slide your foot in while seated. A separate handle pole lets you position the guide without reaching all the way down. The tabs also help pull a sock off.",
+    file: "sock-guide-preview.stl",
+    download: "/assets/sock-guide.stl",
+    downloadLabel: "Download STL",
+    note: "Add a 20 mm pole, about 60 cm long, and a screw to secure it.",
+    credit: { creator: "ScottyMakesStuff", url: "https://www.thingiverse.com/thing:2482788", license: "CC BY 4.0", licenseUrl: "https://creativecommons.org/licenses/by/4.0/" },
+  },
+];
+
 function WorkView({ onNavigate }: { onNavigate: (next: View) => void }) {
   return (
     <section className="tab-page work-page" aria-labelledby="work-title">
-      <PageLabel number="02" title="Our work" aside="Two designs in progress" />
-      <div className="work-heading"><div><p className="eyebrow">Listen · prototype · print · learn</p><h2 id="work-title">Useful <em>by Design.</em></h2><div className="work-intro"><p>We work closely with Dr. Ramchandani at BACH and with patients to understand their needs and design components around them. These are two designs we have created, with more being refined and created now.</p><button className="button button-blue" type="button" onClick={() => onNavigate("contact")}>Talk about a need <Arrow /></button></div></div></div>
+      <PageLabel number="02" title="Our work" aside="Five tools and models" />
+      <div className="work-heading"><div><p className="eyebrow">Dressing · reading · movement · reaching</p><h2 id="work-title">Everyday <em>tools.</em></h2><div className="work-intro"><p>We work with Dr. Ramchandani at BACH and with patients to understand everyday needs. Here are the tools we’re making and exploring, including community designs for future projects. Download the files or take a closer look at each model below.</p><button className="button button-blue" type="button" onClick={() => onNavigate("contact")}>Talk about a need <Arrow /></button></div></div></div>
       <div className="design-grid">
-        <article className="design-card design-blue"><div className="design-card-head"><span>01 / Assistive / adaptive</span></div><div className="design-visual"><ModelViewer file="button-hook-zipper-pull.stl" label="Button hook + zipper pull interactive 3D preview" /></div><a className="design-download" href="/assets/button-hook-zipper-pull.stl" download>Download STL <Arrow /></a><div className="design-card-copy"><div><h3>Button hook + zipper pull</h3><p>The larger grip and hooked ends replace precise fingertip pinching with a broader pulling motion. This reduces fine-motor demand and is designed to place less stress on painful finger joints for people with arthritis or limited dexterity.</p></div><div className="design-card-foot"><span>Target need · hand mobility</span><button type="button" onClick={() => onNavigate("contact")}>Ask about it <Arrow /></button></div></div></article>
-        <article className="design-card design-blue"><div className="design-card-head"><span>02 / Assistive / adaptive</span></div><div className="design-visual"><ModelViewer file="book-page-holder.stl" label="Book page holder interactive 3D preview" /></div><a className="design-download" href="/assets/book-page-holder.stl" download>Download STL <Arrow /></a><div className="design-card-copy"><div><h3>Book page holder</h3><p>The holder keeps pages spread without a continuous thumb-and-finger pinch. By reducing sustained grip force, it can make reading more comfortable for people with arthritis, hand weakness, tremors, or limited coordination.</p></div><div className="design-card-foot"><span>Target need · grip + independence</span><button type="button" onClick={() => onNavigate("contact")}>Ask about it <Arrow /></button></div></div></article>
+        {workModels.map((model, index) => (
+          <article className="design-card design-blue" key={model.name} aria-labelledby={`model-title-${index}`}>
+            <div className="design-card-head"><span>{String(index + 1).padStart(2, "0")} / {model.category}</span></div>
+            <div className="design-visual">
+              {model.file ? <ModelViewer file={model.file} label={`${model.name} interactive 3D preview`} /> : <><img className="design-photo" src={model.image} alt="Blue linked rings assembled into an expanding sphere, photographed by kame." loading="lazy" /><span className="model-badge">Assembled model · photo by kame</span></>}
+            </div>
+            <a className="design-download" href={model.download} download aria-label={`${model.downloadLabel}: ${model.name}`}>{model.downloadLabel} <Arrow /></a>
+            <div className="design-card-copy">
+              <div><h3 id={`model-title-${index}`}>{model.name}</h3><p>{model.description}</p>{model.note && <p className="design-note">{model.note}</p>}</div>
+              {model.credit && <p className="design-credit">Design{model.image ? " and photo" : ""} by <a href={model.credit.url} target="_blank" rel="noreferrer">{model.credit.creator}</a><br /><a href={model.credit.licenseUrl} target="_blank" rel="noreferrer">{model.credit.license}</a> · <a href={model.credit.url} target="_blank" rel="noreferrer">Original model <Arrow /></a></p>}
+            </div>
+          </article>
+        ))}
       </div>
-      <div className="work-note"><span>Patient voice →</span><span>Open-source spirit →</span><span>Better everyday care →</span></div>
     </section>
   );
 }
