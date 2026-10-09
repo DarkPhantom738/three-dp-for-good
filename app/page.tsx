@@ -62,13 +62,9 @@ type WorkModel = {
   category: string;
   description: string;
   file?: string;
-  parts?: string[];
+  mechanism?: "sphere" | "reacher" | "sock-guide";
   assembly?: { file: string; travel: number; twistRadians: number };
-  research?: boolean;
-  download: string;
-  downloadLabel: string;
   note?: string;
-  credit?: { creator: string; url: string; license: string; licenseUrl: string };
 };
 
 const workModels: WorkModel[] = [
@@ -77,47 +73,33 @@ const workModels: WorkModel[] = [
     category: "Dressing",
     description: "A larger handle makes it easier to guide a button through its buttonhole or pull a zipper without pinching a small tab.",
     file: "button-hook-zipper-pull.stl",
-    download: "/assets/button-hook-zipper-pull.stl",
-    downloadLabel: "Download STL",
   },
   {
     name: "Book page holder",
     category: "Reading",
     description: "Keeps a book open without having to hold the pages apart with your fingers. It gives your hand a break while you read.",
     file: "book-page-holder.stl",
-    download: "/assets/book-page-holder.stl",
-    downloadLabel: "Download STL",
   },
   {
     name: "Motion sphere",
     category: "Hand movement + fidget",
     description: "Pull the linked rings apart, then press them back together. The repeated opening and closing gives your hands and fingers a simple movement to practise and doubles as a fidget activity.",
-    file: "motion-sphere-preview.stl",
-    parts: ["10gon_a", "10gon_b", "10gon_c", "12gon_a", "12gon_b", "12gon_c", "12gon_l", "12gon_r", "5gon_a", "5gon_b", "5gon_l", "5gon_r", "6gon_a", "6gon_b", "8gon_a", "8gon_b", "8gon_l", "8gon_r", "hub_120", "hub_60", "hub_90", "lock"],
-    download: "/assets/motion-sphere-models.zip",
-    downloadLabel: "Download model set",
-    note: "Preview the 22 assembly parts or choose one to inspect. The download includes all parts and the assembly guide.",
-    credit: { creator: "kame", url: "https://www.printables.com/model/956821-expanding-rings-spheres", license: "CC BY-NC 4.0", licenseUrl: "https://creativecommons.org/licenses/by-nc/4.0/" },
+    mechanism: "sphere",
+    note: "Drag up to expand the sphere and down to compress it, or press Play to watch the linked rings move.",
   },
   {
     name: "Extending reacher",
     category: "Reaching",
     description: "Squeezing the handles extends the scissor linkage and closes the jaws. We’re exploring this mechanism for picking up objects that are hard to reach.",
-    file: "extending-reacher-preview.stl",
-    download: "/assets/extending-reacher-models.zip",
-    downloadLabel: "Download CAD + STL",
-    note: "The scissor section extends from about 13.5 to 21.3 cm. Includes editable OpenSCAD, STL parts, and assembly instructions.",
-    credit: { creator: "Miloslav Brožek", url: "https://www.printables.com/model/1782336-lazy-tongs-snapping-dragon-extending-scissor-grabb", license: "CC BY-NC 4.0", licenseUrl: "https://creativecommons.org/licenses/by-nc/4.0/" },
+    mechanism: "reacher",
+    note: "Move the slider or press Play to see the scissor joints open and the reacher lengthen.",
   },
   {
     name: "Sock guide",
     category: "Dressing",
     description: "Holds a sock open so you can slide your foot in while seated. A separate handle pole lets you position the guide without reaching all the way down. The tabs also help pull a sock off.",
-    file: "sock-guide-preview.stl",
-    download: "/assets/sock-guide.stl",
-    downloadLabel: "Download STL",
-    note: "Add a 20 mm pole, about 60 cm long, and a screw to secure it.",
-    credit: { creator: "ScottyMakesStuff", url: "https://www.thingiverse.com/thing:2482788", license: "CC BY 4.0", licenseUrl: "https://creativecommons.org/licenses/by/4.0/" },
+    mechanism: "sock-guide",
+    note: "A longer handle can help position the guide while seated.",
   },
   {
     name: "Twist Cone",
@@ -125,27 +107,19 @@ const workModels: WorkModel[] = [
     description: "Hold the inner cone and move the outer piece up and down. The spiral guides it through a turn as it slides, giving your fingers and wrist a small, repeatable movement. It’s a hands-on fidget for students who enjoy tactile play.",
     file: "twist-cone-core-preview.stl",
     assembly: { file: "twist-cone-shell-preview.stl", travel: 16, twistRadians: Math.PI / 2 },
-    download: "/assets/twist-cone-models.zip",
-    downloadLabel: "Download both STLs",
     note: "Try the movement in the preview, then switch to Rotate view to look around the assembled parts.",
-    research: true,
   },
 ];
 
 function WorkModelPreview({ model }: { model: WorkModel }) {
-  const [part, setPart] = useState("");
-  const file = part ? `motion-sphere-parts/${part}.stl` : model.file!;
-  return <>
-    <ModelViewer key={file} file={file} assembly={model.assembly} label={`${model.name}${part ? `, ${part}` : ""} interactive 3D preview`} badge={model.parts && !part ? "STL assembly parts" : "STL preview"} />
-    {model.parts && <select className="model-part-select" aria-label="Motion sphere part to preview" value={part} onChange={(event) => setPart(event.target.value)}><option value="">All 22 parts</option>{model.parts.map((name) => <option key={name} value={name}>{name.replaceAll("_", " ")}</option>)}</select>}
-  </>;
+  return <ModelViewer file={model.file} mechanism={model.mechanism} assembly={model.assembly} label={`${model.name} interactive 3D preview`} />;
 }
 
 function WorkView({ onNavigate }: { onNavigate: (next: View) => void }) {
   return (
     <section className="tab-page work-page" aria-labelledby="work-title">
       <PageLabel number="02" title="Our work" aside="Six tools and models" />
-      <div className="work-heading"><div><p className="eyebrow">Dressing · reading · movement · reaching</p><h2 id="work-title">Everyday <em>tools.</em></h2><div className="work-intro"><p>We work with Dr. Ramchandani at BACH and with patients to understand everyday needs. Here are the tools we’re making and exploring, including community designs for future projects. Download the files or take a closer look at each model below.</p><button className="button button-blue" type="button" onClick={() => onNavigate("contact")}>Talk about a need <Arrow /></button></div></div></div>
+      <div className="work-heading"><div><p className="eyebrow">Dressing · reading · movement · reaching</p><h2 id="work-title">Everyday <em>tools.</em></h2><div className="work-intro"><p>We work with Dr. Ramchandani at BACH and with patients to understand everyday needs. Here are the tools and mechanisms we’re working with. Rotate the previews to look around, or try the movement controls to see how the parts work together.</p><button className="button button-blue" type="button" onClick={() => onNavigate("contact")}>Talk about a need <Arrow /></button></div></div></div>
       <div className="design-grid">
         {workModels.map((model, index) => (
           <article className="design-card design-blue" key={model.name} aria-labelledby={`model-title-${index}`}>
@@ -153,11 +127,8 @@ function WorkView({ onNavigate }: { onNavigate: (next: View) => void }) {
             <div className="design-visual">
               <WorkModelPreview model={model} />
             </div>
-            <a className="design-download" href={model.download} download aria-label={`${model.downloadLabel}: ${model.name}`}>{model.downloadLabel} <Arrow /></a>
             <div className="design-card-copy">
               <div><h3 id={`model-title-${index}`}>{model.name}</h3><p>{model.description}</p>{model.note && <p className="design-note">{model.note}</p>}</div>
-              {model.research && <details className="design-research"><summary>What the research says</summary><p>Classroom fidget studies have found mixed results. A small study of three students with ADHD found more time on task, while a larger study found poorer attention with fidget spinners. Neither tested this design or wrist development. Students’ preferences and responses vary.</p><div><a href="https://pubmed.ncbi.nlm.nih.gov/35692528/" target="_blank" rel="noreferrer">Aspiranti &amp; Hulac study <Arrow /></a><a href="https://pubmed.ncbi.nlm.nih.gov/29676193/" target="_blank" rel="noreferrer">Graziano and colleagues study <Arrow /></a></div></details>}
-              {model.credit && <p className="design-credit">Design by <a href={model.credit.url} target="_blank" rel="noreferrer">{model.credit.creator}</a><br /><a href={model.credit.licenseUrl} target="_blank" rel="noreferrer">{model.credit.license}</a> · <a href={model.credit.url} target="_blank" rel="noreferrer">Original model <Arrow /></a></p>}
             </div>
           </article>
         ))}
