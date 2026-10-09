@@ -2,20 +2,11 @@ import type { Metadata } from "next";
 import { SiteNav } from "../site-nav";
 
 export const metadata: Metadata = {
-  title: "Our Missions | 3DP for Good",
+  title: "Articles | 3DP for Good",
   description: "Stories from 3DP for Good's conversations and visits with older adults and care communities.",
 };
 
-const missions = [
-  {
-    href: "/articles/bach-mobile-clinic",
-    name: "Bay Area Community Health",
-    headline: "Giving away aids at BACH’s mobile clinic",
-    summary: "Outside a BACH mobile clinic, our team gave 3D-printed parts to older adults who had come for clinical care.",
-    label: "Mobile clinic · Community giveaway",
-    visual: "bach",
-    image: "/assets/bach-mobile-clinic-02.jpg",
-  },
+const articles = [
   {
     href: "/articles/aegis-living",
     name: "Aegis Living",
@@ -41,14 +32,14 @@ export default function ArticlesPage() {
     <div className="site-shell article-shell">
       <SiteNav view="articles" />
       <main className="missions-page" aria-labelledby="missions-title">
-        <p className="article-kicker">Visits and giveaways</p>
+        <p className="article-kicker">Conversations with care communities</p>
         <header className="missions-heading">
           <p className="eyebrow">3DP for Good</p>
-          <h1 id="missions-title">Our <em>community visits.</em></h1>
-          <p>Read about where we’ve been, the tools we’ve shared, and our conversations with residents and care staff.</p>
+          <h1 id="missions-title">Our <em>conversations.</em></h1>
+          <p>Interviews with care staff about everyday tasks, useful tools, and ideas for what to make next.</p>
         </header>
-        <section className="mission-cards" aria-label="Mission stories">
-          {missions.map((mission) => (
+        <section className="mission-cards" aria-label="Interview articles">
+          {articles.map((mission) => (
             <a className="mission-card" href={mission.href} key={mission.href}>
               <div className={`mission-card-visual ${mission.visual}`} aria-hidden="true"><img src={mission.image} alt="" /></div>
               <div className="mission-card-copy">

@@ -1,0 +1,49 @@
+.missions-reader { padding: calc(var(--nav-height) + 2.8rem) clamp(1.2rem, 4vw, 4.8rem) 5rem; background: var(--paper); }
+.missions-reader-label { display: flex; justify-content: space-between; gap: 1rem; max-width: 88rem; margin: 0 auto 2rem; padding-bottom: 1rem; border-bottom: 2px solid var(--ink); }
+.missions-reader-label .eyebrow { color: var(--blue); }
+.missions-reader-label > span:last-child { font-size: .9rem; }
+.missions-reader-grid { display: grid; grid-template-columns: minmax(0, 1fr) 18rem; gap: clamp(2rem, 4vw, 5rem); max-width: 88rem; margin: 0 auto; align-items: start; }
+.missions-sidebar { grid-column: 2; grid-row: 1; position: sticky; top: calc(var(--nav-height) + 1.5rem); }
+.missions-sidebar h2 { font-size: 1rem; margin: 0 0 1rem; }
+.missions-selection { display: grid; gap: .85rem; }
+.mission-thumbnail { display: grid; grid-template-columns: 5.2rem minmax(0, 1fr); gap: .85rem; padding: .7rem; border: 1px solid var(--line); transition: border-color .2s, background .2s; }
+.mission-thumbnail:hover { border-color: var(--blue); background: #e9e8df; }
+.mission-thumbnail[aria-current="page"] { border-color: var(--blue); background: #e5e9ed; box-shadow: inset 3px 0 var(--blue); }
+.mission-thumbnail img { width: 100%; height: 6.2rem; object-fit: cover; }
+.mission-thumbnail-copy { display: flex; flex-direction: column; align-items: flex-start; gap: .3rem; }
+.mission-thumbnail-label, .mission-thumbnail-action { color: var(--blue); font-size: .61rem; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; }
+.mission-thumbnail-copy strong { font-size: 1.05rem; line-height: 1.1; }
+.mission-thumbnail-detail { font-size: .7rem; line-height: 1.4; color: #535960; }
+.mission-thumbnail-action { margin-top: .3rem; }
+.mission-reader-story { grid-column: 1; grid-row: 1; min-width: 0; }
+.mission-reader-story.news-article-page .article-heading { margin-top: 1.25rem; }
+.mission-reader-story.news-article-page .article-heading h1 { font-family: inherit; font-size: clamp(3rem, 5.6vw, 6rem); font-weight: 800; line-height: .96; letter-spacing: -.055em; }
+.mission-reader-story.news-article-page .article-dek { font-size: clamp(1.15rem, 1.6vw, 1.4rem); }
+.mission-reader-story .mission-article-photos.is-gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.mission-reader-story .mission-article-photos img, .mission-reader-story .mission-article-photos.is-gallery img { height: auto; aspect-ratio: auto; object-fit: contain; }
+.mission-reader-story .mission-article-photos.is-gallery figure:first-child { grid-column: 1 / -1; }
+.mission-reader-story.news-article-page .mission-article-sections { margin-left: 0; }
+.mission-reader-story.news-article-page .back-to-missions { margin-left: 0; }
+@media (max-width: 1000px) {
+  .missions-reader-grid { grid-template-columns: minmax(0, 1fr); gap: 2rem; }
+  .missions-sidebar { grid-column: 1; grid-row: 1; position: static; }
+  .missions-selection { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .mission-thumbnail { grid-template-columns: 3.6rem minmax(0, 1fr); gap: .6rem; padding: .6rem; }
+  .mission-thumbnail img { height: 4.5rem; }
+  .mission-thumbnail-detail { display: none; }
+  .mission-reader-story { grid-row: 2; }
+}
+@media (max-width: 620px) {
+  .missions-reader { padding-top: calc(var(--nav-height) + 1.7rem); }
+  .missions-reader-label { margin-bottom: 1.3rem; }
+  .missions-reader-label > span:last-child { max-width: 10rem; font-size: .75rem; text-align: right; }
+  .missions-selection { grid-template-columns: 1fr; gap: .5rem; }
+  .mission-thumbnail { grid-template-columns: 3.7rem minmax(0, 1fr); padding: .5rem .7rem; }
+  .mission-thumbnail img { height: 3.5rem; }
+  .mission-thumbnail-copy { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: .25rem .5rem; align-content: center; }
+  .mission-thumbnail-copy strong { grid-column: 1; font-size: .95rem; }
+  .mission-thumbnail-label { grid-column: 1; font-size: .56rem; }
+  .mission-thumbnail-action { grid-column: 2; grid-row: 1 / 3; align-self: center; margin: 0; font-size: .55rem; }
+  .mission-reader-story.news-article-page .article-heading h1 { font-size: clamp(2.8rem, 11vw, 4rem); }
+  .mission-reader-story .mission-article-photos.is-gallery { gap: .65rem; }
+}

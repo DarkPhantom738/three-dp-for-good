@@ -1,12 +1,12 @@
 import { SiteNav } from "../site-nav";
 
-type MissionArticleProps = {
+export type MissionArticleProps = {
   organization: string;
   title: string;
   date: string;
   byline: string;
   introduction: string;
-  photos?: Array<{ src: string; alt: string; caption: string }>;
+  photos?: Array<{ src: string; alt: string; caption?: string }>;
   sections: Array<{
     heading: string;
     paragraphs: string[];
@@ -15,12 +15,25 @@ type MissionArticleProps = {
   }>;
 };
 
-export function MissionArticle({ organization, title, date, byline, introduction, photos, sections }: MissionArticleProps) {
+export function MissionArticle(props: MissionArticleProps) {
   return (
     <div className="site-shell article-shell">
       <SiteNav view="articles" />
       <main className="article-page mission-article-page news-article-page" aria-labelledby="article-title">
-        <p className="article-kicker">{organization} · Community visit</p>
+        <StoryContent {...props} />
+        <a className="back-to-missions" href="/articles">← All articles</a>
+      </main>
+      <footer className="footer article-footer">
+        <div><a className="wordmark footer-wordmark" href="/"><span>3DP FOR GOOD<span className="wordmark-dot">.</span></span></a><p>3D-printed tools for everyday tasks.</p></div>
+        <div className="footer-right"><span>© 2026 3DP for Good</span><a href="/">Back to Home ↑</a></div>
+      </footer>
+    </div>
+  );
+}
+
+export function StoryContent({ organization, title, date, byline, introduction, photos, sections }: MissionArticleProps) {
+  return <>
+        <p className="article-kicker">{organization}</p>
         <header className="article-heading">
           <p className="eyebrow">{date}</p>
           <h1 id="article-title">{title}</h1>
@@ -30,7 +43,7 @@ export function MissionArticle({ organization, title, date, byline, introduction
         {photos && <div className={`mission-article-photos${photos.length > 1 ? " is-gallery" : ""}`}>
           {photos.map((photo) => <figure key={photo.src}>
             <img src={photo.src} alt={photo.alt} />
-            <figcaption>{photo.caption}</figcaption>
+            {photo.caption && <figcaption>{photo.caption}</figcaption>}
           </figure>)}
         </div>}
         <div className="mission-article-sections">
@@ -50,12 +63,5 @@ export function MissionArticle({ organization, title, date, byline, introduction
             </section>
           ))}
         </div>
-        <a className="back-to-missions" href="/articles">← All articles</a>
-      </main>
-      <footer className="footer article-footer">
-        <div><a className="wordmark footer-wordmark" href="/"><span>3DP FOR GOOD<span className="wordmark-dot">.</span></span></a><p>3D-printed tools for everyday tasks.</p></div>
-        <div className="footer-right"><span>© 2026 3DP for Good</span><a href="/">Back to Home ↑</a></div>
-      </footer>
-    </div>
-  );
+  </>;
 }
