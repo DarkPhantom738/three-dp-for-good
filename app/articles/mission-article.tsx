@@ -20,7 +20,7 @@ export function MissionArticle({ organization, title, date, byline, introduction
     <div className="site-shell article-shell">
       <SiteNav view="articles" />
       <main className="article-page mission-article-page news-article-page" aria-labelledby="article-title">
-        <p className="article-kicker">{organization} · Mission story</p>
+        <p className="article-kicker">{organization} · Community visit</p>
         <header className="article-heading">
           <p className="eyebrow">{date}</p>
           <h1 id="article-title">{title}</h1>
@@ -38,7 +38,7 @@ export function MissionArticle({ organization, title, date, byline, introduction
             <section key={section.heading}>
               <h2>{section.heading}</h2>
               {section.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
-              {section.quotes?.map((quote) => <blockquote className="article-quote" key={quote.text}><p>“{quote.text}”</p><cite>— {quote.attribution}</cite></blockquote>)}
+              {section.quotes?.map((quote) => <blockquote className="article-quote" key={quote.text}><p>“{quote.text}”</p><cite>{quote.attribution}</cite></blockquote>)}
               {section.audio && <figure className="interview-clip">
                 <figcaption><span>From the interview</span><strong>{section.audio.label}</strong><small>{section.audio.description}</small></figcaption>
                 <audio controls preload="none" aria-label={section.audio.label}>
@@ -50,10 +50,10 @@ export function MissionArticle({ organization, title, date, byline, introduction
             </section>
           ))}
         </div>
-        <a className="back-to-missions" href="/articles">← All mission stories</a>
+        <a className="back-to-missions" href="/articles">← All articles</a>
       </main>
       <footer className="footer article-footer">
-        <div><a className="wordmark footer-wordmark" href="/"><span>3DP FOR GOOD<span className="wordmark-dot">.</span></span></a><p>Tools for more comfortable,<br />capable, independent care.</p></div>
+        <div><a className="wordmark footer-wordmark" href="/"><span>3DP FOR GOOD<span className="wordmark-dot">.</span></span></a><p>3D-printed tools for everyday tasks.</p></div>
         <div className="footer-right"><span>© 2026 3DP for Good</span><a href="/">Back to Home ↑</a></div>
       </footer>
     </div>

@@ -176,7 +176,7 @@ function HomeView({ onNavigate }: { onNavigate: (next: View) => void }) {
         <div className="home-copy">
           <h1 id="home-title">Make<br /><em>more</em><br />possible.</h1>
           <p className="home-lede">We design, 3D-print, and donate practical tools that make care more comfortable, accessible, and independent. 3DP for Good is a 501(c)(3) pending organization.</p>
-          <div className="home-bach-feature"><img src="/assets/bach-logo.png" alt="Bay Area Community Health — official partner and sponsor" /><span>Official partner + sponsor</span></div>
+          <div className="home-bach-feature"><img src="/assets/bach-logo.png" alt="Bay Area Community Health, official partner and sponsor" /><span>Official partner + sponsor</span></div>
           <button className="text-link" type="button" onClick={() => onNavigate("work")}>See our current work <Arrow /></button>
         </div>
         <div className="home-visual">

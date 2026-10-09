@@ -20,7 +20,7 @@ test("server-renders the 3DP for Good replica", async () => {
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
 
   const html = await response.text();
-  assert.match(html, /<title>3DP for Good — Tools for more independent care<\/title>/i);
+  assert.match(html, /<title>3DP for Good \| Tools for more independent care<\/title>/i);
   assert.match(html, /3DP FOR GOOD/);
   assert.match(html, /Make/);
   assert.match(html, /printer-loop\.mp4/);
