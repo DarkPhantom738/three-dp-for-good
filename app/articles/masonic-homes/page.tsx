@@ -22,6 +22,7 @@ export default function MasonicHomesArticle() {
           "Jennifer also pointed to buttons and other tasks affected by arthritis or reduced hand mobility. The button hooks we shared at the visit fit this practical need: they provide a larger handle to guide a button through a buttonhole. They do not solve every dressing challenge, but they can offer another way to approach a specific step."
         ],
         quotes: [{ text: "Whenever the residents are reaching down, they’re more at risk for fall.", attribution: "Jennifer Macrae, on dressing and mobility" }],
+        audio: { src: "/assets/masonic-fall-risk.m4a", label: "Jennifer on reaching and fall risk", description: "A short excerpt from our Masonic Homes interview." },
       },
       {
         heading: "Designing for the person and the setting",
@@ -30,6 +31,7 @@ export default function MasonicHomesArticle() {
           "Her point is a useful reminder for anyone making or choosing an assistive aid: context matters. A design intended for independent living may not be suitable in memory care. Materials, pieces that could detach, how the object is handled, and how staff supervise its use all need to be considered with the specific person and environment in mind.",
           "Our team had discussed fidget objects and repetitive movement before this visit. Jennifer’s perspective helped sharpen the question: how can a tactile activity be engaging without being too small or complicated? This kind of feedback can help us improve a sketch before it becomes a printed object."
         ],
+        audio: { src: "/assets/masonic-memory-care.m4a", label: "Jennifer on memory-care safety", description: "A short excerpt about the size and design of tactile aids." },
       },
       {
         heading: "What we shared—and what comes next",
@@ -39,6 +41,7 @@ export default function MasonicHomesArticle() {
           "Aids can make small parts of a day easier: getting dressed, holding a book open, or joining an activity. Those moments connect to comfort, choice, and dignity. But a useful aid is not defined by its printer file; it is defined by whether it fits a person’s real routine. Listening to older adults, families, and care teams is how we learn the difference."
         ],
         quotes: [{ text: "I saw a lot of people take those items.", attribution: "Jennifer Macrae, after seeing residents choose the aids" }],
+        audio: { src: "/assets/masonic-buttons.m4a", label: "Jennifer on button hooks", description: "A short excerpt about the aids residents chose." },
       },
     ]}
   />;

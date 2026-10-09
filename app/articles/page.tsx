@@ -8,12 +8,22 @@ export const metadata: Metadata = {
 
 const missions = [
   {
+    href: "/articles/bach-mobile-clinic",
+    name: "Bay Area Community Health",
+    headline: "Sharing aids at the mobile clinic",
+    summary: "Outside a BACH mobile clinic, our team gave 3D-printed parts to older adults who had come for clinical care.",
+    label: "Mobile clinic · Community giveaway",
+    visual: "bach",
+    image: "/assets/bach-mobile-clinic-02.jpg",
+  },
+  {
     href: "/articles/aegis-living",
     name: "Aegis Living",
     headline: "Designing with memory care in mind",
     summary: "A conversation with Brian Wakefield explored safe, engaging activities and everyday tools that can support older adults living with dementia.",
     label: "Listening visit · Design insights",
     visual: "aegis",
+    image: "/assets/aegis-visit.jpg",
   },
   {
     href: "/articles/masonic-homes",
@@ -22,6 +32,7 @@ const missions = [
     summary: "At Masonic Homes’ Union City campus, we shared button hooks and book page holders—and listened to residents and staff about where thoughtful design can help.",
     label: "Union City · September 29, 2026",
     visual: "masonic",
+    image: "/assets/masonic-visit-01.jpg",
   },
 ];
 
@@ -39,9 +50,7 @@ export default function ArticlesPage() {
         <section className="mission-cards" aria-label="Mission stories">
           {missions.map((mission) => (
             <a className="mission-card" href={mission.href} key={mission.href}>
-              <div className={`mission-card-visual ${mission.visual}`} aria-hidden="true">
-                {mission.visual === "masonic" ? <img src="/assets/masonic-visit-01.jpg" alt="" /> : <><span className="mission-visual-index">01 / LISTENING SESSION</span><strong>Design starts<br />with a conversation.</strong><span className="mission-visual-mark">A</span></>}
-              </div>
+              <div className={`mission-card-visual ${mission.visual}`} aria-hidden="true"><img src={mission.image} alt="" /></div>
               <div className="mission-card-copy">
                 <p className="eyebrow">{mission.label}</p>
                 <h2>{mission.name}</h2>

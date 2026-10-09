@@ -13,6 +13,7 @@ export default function AegisLivingArticle() {
     date="Community listening session"
     byline="Interview with Brian Wakefield"
     introduction="We met with Brian Wakefield at Aegis Living to ask a deceptively simple question: what would make an ordinary day a little easier for residents and the people who care for them? Brian answered with practical examples from memory care, activities, mobility, and mealtimes. The conversation did not produce a finished invention. It gave us something more useful at the beginning of a design process: a clearer picture of the people and situations a tool would need to serve."
+    photos={[{ src: "/assets/aegis-visit.jpg", alt: "Aegis Living representative with three members of the 3DP for Good team outside the care community.", caption: "Our team with an Aegis Living representative after the listening visit." }]}
     sections={[
       {
         heading: "What we learned",
@@ -22,6 +23,7 @@ export default function AegisLivingArticle() {
           "Brian also suggested that repetitive hand movements can be engaging for some residents. He imagined a larger fidget object that expands and compacts, with movement built into the design. Any such idea would need to be developed around residents’ interests, handling abilities, and the care setting."
         ],
         quotes: [{ text: "To a certain extent, repetition is really comfortable for them.", attribution: "Brian Wakefield, on familiar activities in memory care" }],
+        audio: { src: "/assets/aegis-repetition.m4a", label: "Brian on repetitive activities", description: "A short excerpt from our Aegis Living interview." },
       },
       {
         heading: "Safety and familiarity come first",
@@ -29,6 +31,7 @@ export default function AegisLivingArticle() {
           "The conversation also made clear that an object can be experienced differently by someone living with dementia. Brian cautioned that a person may misinterpret an object or put it in their mouth, especially in later stages. A design that looks harmless on a screen may not be appropriate in a memory-care setting. Material, size, edges, attachment points, and how easily a part can break off all deserve attention before a prototype reaches a resident.",
           "He described wanting a malleable, non-toxic object and raised concerns about small pieces. Familiarity matters too. Instead of assuming that a trendy fidget or game will appeal to everyone, designers should ask residents and staff what feels comfortable, recognizable, and worth returning to."
         ],
+        audio: { src: "/assets/aegis-material-safety.m4a", label: "Brian on safe materials", description: "A short excerpt about materials for memory care." },
       },
       {
         heading: "Movement, mobility, and independence",
@@ -37,6 +40,7 @@ export default function AegisLivingArticle() {
           "He pointed to Wii Sports as an example of an activity residents can enjoy, while noting that the controller’s button sequences can be a barrier. He imagined bowling or tennis that responded to a simple arm movement. A motion-based game could remove the need to manage a sequence of buttons and let someone focus on the familiar movement itself."
         ],
         quotes: [{ text: "We take it for granted, our hand-eye coordination.", attribution: "Brian Wakefield, on skills many people do not notice until they become difficult" }],
+        audio: { src: "/assets/aegis-motion-games.m4a", label: "Brian on movement-based games", description: "A short excerpt about simplifying familiar games." },
       },
       {
         heading: "From a conversation to a useful aid",

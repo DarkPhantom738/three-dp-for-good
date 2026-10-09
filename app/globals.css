@@ -202,6 +202,12 @@ a:hover .arrow, button:hover .arrow { transform: translate(2px, -2px); }
 .news-article-page .article-byline { margin-top: .9rem; color: #4b4b4b; font-family: var(--font-geist-mono), monospace; font-size: .72rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; }
 .news-article-page .article-byline span { padding: 0 .35rem; color: var(--blue); }
 .news-article-page .article-dek { margin-top: 1.5rem; padding-bottom: 1.5rem; border-bottom: 3px double var(--line); color: #303030; font-size: clamp(1.2rem, 1.8vw, 1.5rem); font-weight: 400; line-height: 1.6; }
+.mission-article-photos { display: grid; max-width: 60rem; margin: 2rem auto 0; gap: 1rem; }
+.mission-article-photos.is-gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.mission-article-photos figure { min-width: 0; margin: 0; }
+.mission-article-photos img { display: block; width: 100%; aspect-ratio: 3 / 2; object-fit: cover; }
+.mission-article-photos.is-gallery img { aspect-ratio: 4 / 5; }
+.mission-article-photos figcaption { margin-top: .5rem; color: #555; font-family: var(--font-geist-mono), monospace; font-size: .65rem; line-height: 1.5; }
 .news-article-page .mission-article-sections { display: block; max-width: 46rem; margin: 2.3rem auto 0; }
 .news-article-page .mission-article-sections section { margin-bottom: 2.4rem; padding-top: 0; border-top: 0; }
 .news-article-page .mission-article-sections h2 { margin: 0 0 .9rem; font-family: Georgia, "Times New Roman", serif; font-size: 1.75rem; font-weight: 700; line-height: 1.15; letter-spacing: -.025em; }
@@ -209,6 +215,12 @@ a:hover .arrow, button:hover .arrow { transform: translate(2px, -2px); }
 .news-article-page .article-quote { margin: 1.5rem 0 1.7rem; padding: .5rem 0 .5rem 1.25rem; border-left: 4px solid var(--blue); color: var(--blue-dark); }
 .news-article-page .article-quote p { margin: 0 0 .55rem; color: inherit; font-size: 1.55rem; font-style: italic; line-height: 1.4; }
 .news-article-page .article-quote cite { color: #555; font-family: var(--font-geist-mono), monospace; font-size: .65rem; font-style: normal; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; }
+.interview-clip { margin: 1.7rem 0 2rem; padding: 1rem 1.2rem; border: 1px solid var(--line); background: #eeeae0; }
+.interview-clip figcaption { display: grid; gap: .3rem; margin-bottom: .8rem; }
+.interview-clip figcaption span { color: var(--blue); font-family: var(--font-geist-mono), monospace; font-size: .62rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+.interview-clip figcaption strong { font-family: Georgia, "Times New Roman", serif; font-size: 1.1rem; }
+.interview-clip figcaption small { color: #555; font-size: .8rem; line-height: 1.4; }
+.interview-clip audio { display: block; width: 100%; height: 2.5rem; }
 .news-article-page .back-to-missions { display: flex; max-width: 46rem; margin: 0 auto; }
 .missions-page { min-height: calc(100vh - var(--nav-height)); min-height: calc(100svh - var(--nav-height)); min-height: calc(100dvh - var(--nav-height)); padding: calc(var(--nav-height) + 2.5rem) clamp(1.2rem, 4vw, 4.8rem) 5rem; background: var(--paper); }
 .missions-heading { max-width: 76rem; margin: 1.3rem auto 0; }
@@ -216,15 +228,13 @@ a:hover .arrow, button:hover .arrow { transform: translate(2px, -2px); }
 .missions-heading h1 { margin-top: 1rem; font-size: clamp(3.5rem, 8vw, 8rem); font-weight: 800; line-height: .91; letter-spacing: -.07em; }
 .missions-heading h1 em { color: var(--blue); font-style: normal; }
 .missions-heading > p:last-child { max-width: 56rem; margin-top: 1.3rem; font-size: clamp(1.1rem, 1.65vw, 1.5rem); line-height: 1.45; }
-.mission-cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.3rem; max-width: 76rem; margin: 3rem auto 0; }
+.mission-cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.3rem; max-width: 76rem; margin: 3rem auto 0; }
 .mission-card { display: flex; min-width: 0; flex-direction: column; border: 1px solid var(--ink); background: var(--paper); transition: transform .2s, box-shadow .2s; }
 .mission-card:hover { transform: translateY(-.3rem); box-shadow: .45rem .45rem 0 var(--blue); }
 .mission-card-visual { position: relative; display: flex; min-height: 19rem; align-items: center; justify-content: center; overflow: hidden; background: #e1dfd8; }
 .mission-card-visual img { width: 100%; height: 100%; position: absolute; inset: 0; object-fit: cover; }
-.mission-card-visual.aegis { align-items: flex-start; justify-content: space-between; padding: 1.4rem; color: var(--paper); background: var(--ink); }
-.mission-visual-index { position: relative; z-index: 1; color: #aebaf7; font-family: var(--font-geist-mono), monospace; font-size: .7rem; font-weight: 700; letter-spacing: .12em; }
-.mission-card-visual.aegis strong { position: relative; z-index: 1; margin: auto 0; font-size: clamp(2rem, 3.7vw, 3.8rem); line-height: .95; letter-spacing: -.06em; }
-.mission-visual-mark { position: absolute; right: 1.3rem; bottom: -4.2rem; color: #5267c9; font-size: 19rem; font-weight: 900; line-height: 1; opacity: .72; }
+.mission-card-visual.aegis img { object-position: center 42%; }
+.mission-card-visual.bach img { object-position: center 56%; }
 .mission-card-copy { display: flex; flex: 1; flex-direction: column; align-items: flex-start; padding: 1.5rem; }
 .mission-card-copy .eyebrow { color: var(--blue); font-size: .68rem; }
 .mission-card-copy h2 { margin-top: .7rem; font-size: 1.3rem; font-weight: 700; }
@@ -285,6 +295,7 @@ a:hover .arrow, button:hover .arrow { transform: translate(2px, -2px); }
 @media (prefers-reduced-motion: reduce) { .work-heading h2 em, .contact-hero h2 em { animation: none; } .class-gallery figure { transition: none; } .home-announcement, .site-nav.has-announcement, .home-page.has-announcement, .announcement-facts > span { animation: none; } .home-announcement { transform: none; } .announcement-fact-date { opacity: 1; transform: none; } .announcement-fact-count { opacity: 0; } .site-nav.has-announcement { top: var(--announcement-height); } .home-page.has-announcement { padding-top: calc(6.8rem + var(--announcement-height)); } }
 @media (pointer: coarse), (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 @media (width <= 1050px) {
+  .mission-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .founder-card { flex-basis: calc((100% - 2.5rem) / 3); }
   .main-nav { gap: .8rem; }
   .main-nav a { font-size: .72rem; }
@@ -293,6 +304,7 @@ a:hover .arrow, button:hover .arrow { transform: translate(2px, -2px); }
   .design-card-copy { min-height: 10rem; }
 }
 @media (width <= 780px) {
+  .mission-cards { grid-template-columns: 1fr; }
   .main-nav a { display: none; }
   .menu-toggle { display: flex; }
   .main-nav.is-open { position: absolute; top: var(--nav-height); left: 0; right: 0; display: flex; flex-direction: column; align-items: flex-start; gap: 1.1rem; padding: 1.6rem 1.2rem 2rem; border-top: 1px solid var(--line); background: var(--paper); }
@@ -343,6 +355,7 @@ a:hover .arrow, button:hover .arrow { transform: translate(2px, -2px); }
   .footer-right { flex-direction: column; align-items: flex-start; gap: .8rem; }
 }
 @media (width <= 440px) {
+  .mission-article-photos.is-gallery { grid-template-columns: 1fr; }
   .tab-page { padding-right: 1rem; padding-left: 1rem; }
   .home-copy h1, .contact-hero h2 { font-size: 4.4rem; }
   .wordmark { font-size: .86rem; }
@@ -357,7 +370,6 @@ a:hover .arrow, button:hover .arrow { transform: translate(2px, -2px); }
   .missions-heading h1 { font-size: clamp(3.2rem, 12vw, 5.5rem); }
   .mission-cards { grid-template-columns: 1fr; gap: 1rem; margin-top: 2rem; }
   .mission-card-visual { min-height: 15rem; }
-  .mission-card-visual.aegis strong { font-size: clamp(2.2rem, 11vw, 3.5rem); }
   .mission-card-copy { padding: 1.1rem; }
   .mission-article-sections { grid-template-columns: 1fr; gap: 1.2rem; margin-top: 2rem; }
   .home-bach-feature img { width: min(25rem, 92vw); }
