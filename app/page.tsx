@@ -63,6 +63,8 @@ type WorkModel = {
   description: string;
   file?: string;
   parts?: string[];
+  assembly?: { file: string; travel: number; twistRadians: number };
+  research?: boolean;
   download: string;
   downloadLabel: string;
   note?: string;
@@ -117,13 +119,24 @@ const workModels: WorkModel[] = [
     note: "Add a 20 mm pole, about 60 cm long, and a screw to secure it.",
     credit: { creator: "ScottyMakesStuff", url: "https://www.thingiverse.com/thing:2482788", license: "CC BY 4.0", licenseUrl: "https://creativecommons.org/licenses/by/4.0/" },
   },
+  {
+    name: "Twist Cone",
+    category: "Tactile play + movement",
+    description: "Hold the inner cone and move the outer piece up and down. The spiral guides it through a turn as it slides, giving your fingers and wrist a small, repeatable movement. It’s a hands-on fidget for students who enjoy tactile play.",
+    file: "twist-cone-core-preview.stl",
+    assembly: { file: "twist-cone-shell-preview.stl", travel: 16, twistRadians: Math.PI / 2 },
+    download: "/assets/twist-cone-models.zip",
+    downloadLabel: "Download both STLs",
+    note: "Try the movement in the preview, then switch to Rotate view to look around the assembled parts.",
+    research: true,
+  },
 ];
 
 function WorkModelPreview({ model }: { model: WorkModel }) {
   const [part, setPart] = useState("");
   const file = part ? `motion-sphere-parts/${part}.stl` : model.file!;
   return <>
-    <ModelViewer key={file} file={file} label={`${model.name}${part ? `, ${part}` : ""} interactive 3D preview`} badge={model.parts && !part ? "STL assembly parts" : "STL preview"} />
+    <ModelViewer key={file} file={file} assembly={model.assembly} label={`${model.name}${part ? `, ${part}` : ""} interactive 3D preview`} badge={model.parts && !part ? "STL assembly parts" : "STL preview"} />
     {model.parts && <select className="model-part-select" aria-label="Motion sphere part to preview" value={part} onChange={(event) => setPart(event.target.value)}><option value="">All 22 parts</option>{model.parts.map((name) => <option key={name} value={name}>{name.replaceAll("_", " ")}</option>)}</select>}
   </>;
 }
@@ -131,7 +144,7 @@ function WorkModelPreview({ model }: { model: WorkModel }) {
 function WorkView({ onNavigate }: { onNavigate: (next: View) => void }) {
   return (
     <section className="tab-page work-page" aria-labelledby="work-title">
-      <PageLabel number="02" title="Our work" aside="Five tools and models" />
+      <PageLabel number="02" title="Our work" aside="Six tools and models" />
       <div className="work-heading"><div><p className="eyebrow">Dressing · reading · movement · reaching</p><h2 id="work-title">Everyday <em>tools.</em></h2><div className="work-intro"><p>We work with Dr. Ramchandani at BACH and with patients to understand everyday needs. Here are the tools we’re making and exploring, including community designs for future projects. Download the files or take a closer look at each model below.</p><button className="button button-blue" type="button" onClick={() => onNavigate("contact")}>Talk about a need <Arrow /></button></div></div></div>
       <div className="design-grid">
         {workModels.map((model, index) => (
@@ -143,6 +156,7 @@ function WorkView({ onNavigate }: { onNavigate: (next: View) => void }) {
             <a className="design-download" href={model.download} download aria-label={`${model.downloadLabel}: ${model.name}`}>{model.downloadLabel} <Arrow /></a>
             <div className="design-card-copy">
               <div><h3 id={`model-title-${index}`}>{model.name}</h3><p>{model.description}</p>{model.note && <p className="design-note">{model.note}</p>}</div>
+              {model.research && <details className="design-research"><summary>What the research says</summary><p>Classroom fidget studies have found mixed results. A small study of three students with ADHD found more time on task, while a larger study found poorer attention with fidget spinners. Neither tested this design or wrist development. Students’ preferences and responses vary.</p><div><a href="https://pubmed.ncbi.nlm.nih.gov/35692528/" target="_blank" rel="noreferrer">Aspiranti &amp; Hulac study <Arrow /></a><a href="https://pubmed.ncbi.nlm.nih.gov/29676193/" target="_blank" rel="noreferrer">Graziano and colleagues study <Arrow /></a></div></details>}
               {model.credit && <p className="design-credit">Design by <a href={model.credit.url} target="_blank" rel="noreferrer">{model.credit.creator}</a><br /><a href={model.credit.licenseUrl} target="_blank" rel="noreferrer">{model.credit.license}</a> · <a href={model.credit.url} target="_blank" rel="noreferrer">Original model <Arrow /></a></p>}
             </div>
           </article>

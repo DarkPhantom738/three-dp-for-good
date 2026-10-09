@@ -99,7 +99,7 @@ a:hover .arrow, button:hover .arrow { transform: translate(2px, -2px); }
 .work-intro { max-width: 68rem; margin-top: 1.15rem; }
 .work-intro p { margin-bottom: 1rem; font-size: 1.37rem; line-height: 1.48; }
 .design-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.4rem; margin-top: .5rem; }
-.design-card { display: grid; grid-template-columns: minmax(0, 1.12fr) minmax(10rem, .88fr); grid-template-rows: auto auto auto; min-width: 0; overflow: visible; border: 1px solid var(--ink); background: var(--paper); color: var(--ink); }
+.design-card { display: grid; grid-template-columns: minmax(0, 1.12fr) minmax(10rem, .88fr); grid-template-rows: auto auto auto; align-content: start; min-width: 0; overflow: visible; border: 1px solid var(--ink); background: var(--paper); color: var(--ink); }
 .design-card-head { display: flex; grid-column: 1 / -1; align-items: center; justify-content: space-between; padding: .8rem .9rem; font-family: var(--font-geist-mono), monospace; font-size: .68rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
 .design-card-head span { color: var(--blue); }
 .design-visual { position: relative; grid-area: 2 / 1; width: 100%; min-height: 0; overflow: hidden; border-right: 1px solid var(--ink); background-color: #e6e5df; background-image: linear-gradient(#5267c92e 1px, transparent 1px), linear-gradient(90deg, #5267c92e 1px, transparent 1px); background-size: 1.25rem 1.25rem; aspect-ratio: 1; }
@@ -127,6 +127,20 @@ a:hover .arrow, button:hover .arrow { transform: translate(2px, -2px); }
 .model-badge { right: .7rem; padding: .35rem .4rem; background: #f4f2ebc7; }
 .model-mode-toggle { position: absolute; top: .65rem; right: .7rem; padding: .45rem .5rem; border: 1px solid var(--blue); color: var(--blue-dark); background: #f4f2ebe6; font-family: var(--font-geist-mono), monospace; font-size: .52rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
 .model-mode-toggle:hover, .model-mode-toggle[aria-pressed="false"] { color: var(--paper); background: var(--blue); }
+.model-motion-modes { position: absolute; top: .65rem; left: .7rem; display: flex; gap: .3rem; max-width: calc(100% - 7.5rem); }
+.model-motion-mode { padding: .45rem .5rem; border: 1px solid var(--blue); color: var(--blue-dark); background: #f4f2ebe6; font-family: var(--font-geist-mono), monospace; font-size: .52rem; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; }
+.model-motion-mode:hover, .model-motion-mode[aria-pressed="true"] { background: var(--blue); color: var(--paper); }
+.model-motion-mode:disabled { opacity: .6; cursor: wait; }
+.model-motion-controls { position: absolute; bottom: 0; left: 0; right: 0; padding: .45rem .7rem .6rem; background: #f4f2ebee; border-top: 1px solid var(--line); }
+.model-motion-label { display: flex; align-items: center; justify-content: space-between; gap: .5rem; font-family: var(--font-geist-mono), monospace; font-size: .61rem; font-weight: 700; color: var(--ink); }
+.model-motion-slider { display: block; width: 100%; height: 1.2rem; margin: .15rem 0; accent-color: var(--blue); cursor: ew-resize; }
+.model-motion-hint { display: block; color: #505357; font-size: .6rem; line-height: 1.3; }
+.model-viewer-assembly .model-badge { display: none; }
+.design-research { border-top: 1px solid var(--line); padding-top: .75rem; font-size: .8rem; line-height: 1.5; }
+.design-research summary { cursor: pointer; color: var(--blue-dark); font-weight: 700; }
+.design-card-copy .design-research p { font-size: .82rem; line-height: 1.5; }
+.design-research div { display: grid; gap: .35rem; margin-top: .6rem; }
+.design-research a { color: var(--blue-dark); text-decoration: underline; text-underline-offset: .15em; }
 
 .classes-page, .sponsors-page { height: auto; min-height: calc(100vh - var(--nav-height)); min-height: calc(100svh - var(--nav-height)); min-height: calc(100dvh - var(--nav-height)); padding-bottom: 5rem; overflow: visible; background: var(--paper); }
 .classes-heading { width: 100%; max-width: 110rem; margin: 4rem auto 0; }
