@@ -1,19 +1,17 @@
 import { SiteNav } from "../site-nav";
 import { StoryContent } from "../articles/mission-article";
-import { aegisStory, bachStory, masonicStory } from "../articles/story-data";
+import { bachStory } from "../articles/story-data";
 import { visitPhotos } from "./visit-photos";
 import "./missions.css";
 
 const missions = [
-  { id: "masonic-homes", href: "/missions", name: "Masonic Homes", label: "Latest mission", image: "/assets/masonic-visit-01.jpg", detail: "Union City · September 29, 2026", story: { ...masonicStory, photos: visitPhotos } },
-  { id: "bach-mobile-clinic", href: "/missions/bach-mobile-clinic", name: "BACH mobile clinic", label: "Community giveaway", image: "/assets/bach-mobile-clinic-02.jpg", detail: "Bay Area Community Health", story: bachStory },
-  { id: "aegis-living", href: "/missions/aegis-living", name: "Aegis Living", label: "Community visit", image: "/assets/aegis-visit.jpg", detail: "A conversation with care staff", story: aegisStory },
+  { id: "masonic-homes", href: "/missions", name: "Masonic Homes", label: "Latest mission", image: "/assets/masonic-visit-01.jpg", detail: "Union City · September 29, 2026" },
+  { id: "bach-mobile-clinic", href: "/missions/bach-mobile-clinic", name: "BACH mobile clinic", label: "Community giveaway", image: "/assets/bach-mobile-clinic-02.jpg", detail: "Bay Area Community Health" },
 ] as const;
 
 type MissionId = typeof missions[number]["id"];
 
 export function MissionPage({ selected }: { selected: MissionId }) {
-  const mission = missions.find((item) => item.id === selected)!;
   return (
     <div className="site-shell article-shell">
       <SiteNav view="missions" />
@@ -32,8 +30,22 @@ export function MissionPage({ selected }: { selected: MissionId }) {
             </nav>
           </aside>
           <article className="mission-reader-story news-article-page">
-            <StoryContent {...mission.story} />
-            <a className="back-to-missions" href="/articles">More conversations in Articles →</a>
+            {selected === "masonic-homes" ? <>
+              <p className="article-kicker">Masonic Homes of California · Union City Campus</p>
+              <header className="article-heading">
+                <p className="eyebrow">September 29, 2026 / Community visit</p>
+                <h1 id="article-title">Our Visit to Masonic Homes</h1>
+              </header>
+              <div className="mission-visit-copy">
+                <p>On September 29, our team brought 3D-printed button hooks and book page holders to Masonic Homes of California’s Union City campus.</p>
+                <p>Residents tried the tools and took some home. The button hooks help guide buttons through buttonholes, and the page holders keep a book open while reading.</p>
+                <p>Thank you to the residents and staff who spent time with us. We enjoyed the visit and would love to come back.</p>
+              </div>
+              <section className="article-gallery" aria-label="Photos from our Masonic Homes visit">
+                {visitPhotos.map((photo, index) => <figure key={photo.src}><img src={photo.src} alt={photo.alt} loading={index > 1 ? "lazy" : "eager"} /></figure>)}
+              </section>
+            </> : <StoryContent {...bachStory} />}
+            <a className="back-to-missions" href="/articles">Explore all articles →</a>
           </article>
         </div>
       </main>

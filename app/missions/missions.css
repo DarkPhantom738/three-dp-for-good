@@ -24,10 +24,11 @@
 .mission-reader-story .mission-article-photos.is-gallery figure:first-child { grid-column: 1 / -1; }
 .mission-reader-story.news-article-page .mission-article-sections { margin-left: 0; }
 .mission-reader-story.news-article-page .back-to-missions { margin-left: 0; }
+.mission-visit-copy { display: grid; gap: 1rem; margin-top: 1.75rem; font-size: 1.17rem; line-height: 1.65; }
 @media (max-width: 1000px) {
   .missions-reader-grid { grid-template-columns: minmax(0, 1fr); gap: 2rem; }
   .missions-sidebar { grid-column: 1; grid-row: 1; position: static; }
-  .missions-selection { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .missions-selection { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .mission-thumbnail { grid-template-columns: 3.6rem minmax(0, 1fr); gap: .6rem; padding: .6rem; }
   .mission-thumbnail img { height: 4.5rem; }
   .mission-thumbnail-detail { display: none; }

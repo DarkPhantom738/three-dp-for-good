@@ -3,7 +3,7 @@ import { MissionPage } from "./mission-page";
 
 export const metadata: Metadata = {
   title: "Missions: Our Visit to Masonic Homes | 3DP for Good",
-  description: "Our latest mission at Masonic Homes, with photos, conversations, and recorded excerpts. Explore our BACH and Aegis Living visits too.",
+  description: "Our visit to Masonic Homes of California’s Union City campus, where we shared button hooks and book page holders with residents. Explore our BACH mobile clinic drive too.",
 };
 
 export default function MissionsPage() {
