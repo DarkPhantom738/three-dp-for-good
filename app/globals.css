@@ -188,14 +188,16 @@ a:hover .arrow, button:hover .arrow { transform: translate(2px, -2px); }
 .founder-placeholder span { font-size: clamp(4rem, 7vw, 7rem); font-weight: 800; letter-spacing: -.08em; }
 .founder-card > p { margin-top: .8rem; color: var(--blue); font-family: var(--font-geist-mono), monospace; font-size: .68rem; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; }
 .founder-card h3 { margin-top: .45rem; font-size: clamp(1.35rem, 2.25vw, 2.4rem); font-weight: 800; line-height: .92; }
+.team-story { width: 80%; max-width: 52rem; margin: 2.7rem auto 0; font-size: clamp(1.05rem, 1.45vw, 1.3rem); line-height: 1.65; }
 .advisor-section { width: 80%; margin: clamp(4.5rem, 8vw, 8rem) auto 0; padding-top: 1.5rem; border-top: 1px solid var(--ink); }
 .advisor-section .eyebrow { color: var(--blue); }
 .advisor-section > h2 { margin-top: .8rem; font-size: clamp(3.5rem, 7vw, 7.5rem); font-weight: 800; line-height: .88; letter-spacing: -.07em; }
-.advisor-profile { display: grid; grid-template-columns: clamp(10rem, 18vw, 16rem) minmax(0, 1fr); align-items: end; gap: 2rem; margin-top: 2.4rem; }
-.advisor-photo { width: 100%; aspect-ratio: 1; }
+.advisor-profile { display: grid; grid-template-columns: clamp(12rem, 24vw, 20rem) minmax(0, 1fr); align-items: center; gap: clamp(2rem, 5vw, 5rem); margin-top: 2.4rem; }
+.advisor-photo { width: 100%; max-width: 16rem; margin-bottom: 1rem; aspect-ratio: 1; }
 .advisor-photo img { object-position: center; }
 .advisor-profile span { color: var(--blue); font-family: var(--font-geist-mono), monospace; font-size: .76rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
-.advisor-profile h3 { margin-top: .45rem; font-size: clamp(2.2rem, 4vw, 4.6rem); font-weight: 800; line-height: .9; letter-spacing: -.06em; }
+.advisor-profile h3 { margin-top: .45rem; font-size: clamp(1.8rem, 2.8vw, 2.7rem); font-weight: 800; line-height: 1; letter-spacing: -.06em; }
+.advisor-story { max-width: 36rem; font-size: clamp(1.05rem, 1.45vw, 1.3rem); line-height: 1.65; }
 
 .article-page { min-height: calc(100vh - var(--nav-height)); min-height: calc(100svh - var(--nav-height)); min-height: calc(100dvh - var(--nav-height)); padding: calc(var(--nav-height) + 2.5rem) clamp(1.2rem, 4vw, 4.8rem) 5rem; background: var(--paper); }
 .article-kicker { color: var(--blue); font-family: var(--font-geist-mono), monospace; font-size: .72rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
