@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { ModelViewer } from "./model-viewer";
 import { SiteNav, type View } from "./site-nav";
+import { HomeView } from "./home-view";
 
 const galleryImages = [
   { src: "/assets/class-workshop-01.jpg", alt: "Students learning CAD together during a 3DP for Good workshop" },
@@ -27,34 +28,6 @@ function PageLabel({ number, title, aside }: { number: string; title: string; as
 
 function Arrow() {
   return <span aria-hidden="true" className="arrow">↗</span>;
-}
-
-function HomeView({ onNavigate }: { onNavigate: (next: View) => void }) {
-  return (
-    <section className="tab-page home-page has-announcement" aria-labelledby="home-title">
-      <PageLabel number="01" title="Home" aside="Patient-centered making" />
-      <div className="home-layout">
-        <div className="home-copy">
-          <h1 id="home-title">Make<br /><em>more</em><br />possible.</h1>
-          <p className="home-lede">We design, 3D-print, and donate practical tools that make care more comfortable, accessible, and independent. 3DP for Good is a 501(c)(3) pending organization.</p>
-          <div className="home-bach-feature"><img src="/assets/bach-logo.png" alt="Bay Area Community Health, official partner and sponsor" /><span>Official partner + sponsor</span></div>
-          <button className="text-link" type="button" onClick={() => onNavigate("work")}>See our current work <Arrow /></button>
-        </div>
-        <div className="home-visual">
-          <div className="home-video-frame"><video autoPlay muted loop playsInline aria-label="A 3D printer making an assistive tool"><source src="/assets/printer-loop.mp4" type="video/mp4" /></video><span className="frame-corner">↘</span></div>
-        </div>
-      </div>
-      <div className="impact-heading"><span>Impact so far</span><span>Made · shared · taught</span></div>
-      <div className="printer-stats" aria-label="3DP for Good impact statistics">
-        <div className="printed-stat"><strong>100<span>+</span></strong><span>objects printed</span></div>
-        <div className="printed-stat"><strong>3</strong><span>community drives</span></div>
-        <div className="printed-stat"><strong>60<span>+</span></strong><span>hours taught</span></div>
-        <div className="printed-stat"><strong>4<span>+</span></strong><span>designs</span></div>
-        <div className="printed-stat"><strong>2</strong><span>partners</span></div>
-      </div>
-      <div className="home-bottom"><span>Bay Area, California</span><span>501(c)(3) pending organization</span></div>
-    </section>
-  );
 }
 
 type WorkModel = {
@@ -201,5 +174,5 @@ export default function Home() {
     setView(next);
     window.scrollTo({ top: 0, behavior: "instant" });
   };
-  return <main className="site-shell">{view === "home" && <a className="home-announcement" href="/missions" aria-label="Masonic Homes mission. September 29, 2026. 40 plus aids given. Read the story."><span className="announcement-copy"><span className="announcement-title">A Masonic Homes mission</span><span className="announcement-facts" aria-hidden="true"><span className="announcement-fact-date">September 29, 2026</span><span className="announcement-fact-count">40+ aids given</span></span></span><span className="announcement-action"><span className="announcement-action-label">Read the story</span><Arrow /><img className="announcement-photo" src="/assets/masonic-banner.png" alt="" /></span></a>}<SiteNav view={view} onNavigate={navigate} showAnnouncement={view === "home"} />{view === "home" && <HomeView onNavigate={navigate} />}{view === "work" && <WorkView onNavigate={navigate} />}{view === "classes" && <ClassesView />}{view === "sponsors" && <SponsorsView onNavigate={navigate} />}{view === "team" && <TeamView />}{view === "contact" && <ContactView />}</main>;
+  return <main className="site-shell">{view === "home" && <a className="home-announcement" href="/missions" aria-label="Masonic Homes mission. September 29, 2026. 40 plus aids given. Read the story."><span className="announcement-copy"><span className="announcement-title">A Masonic Homes mission</span><span className="announcement-facts" aria-hidden="true"><span className="announcement-fact-date">September 29, 2026</span><span className="announcement-fact-count">40+ aids given</span></span></span><span className="announcement-action"><span className="announcement-action-label">Read the story</span><Arrow /></span></a>}<SiteNav view={view} onNavigate={navigate} showAnnouncement={view === "home"} />{view === "home" && <HomeView onNavigate={navigate} />}{view === "work" && <WorkView onNavigate={navigate} />}{view === "classes" && <ClassesView />}{view === "sponsors" && <SponsorsView onNavigate={navigate} />}{view === "team" && <TeamView />}{view === "contact" && <ContactView />}</main>;
 }

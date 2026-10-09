@@ -14,7 +14,7 @@ async function render() {
   );
 }
 
-test("server-renders the 3DP for Good replica", async () => {
+test("server-renders the homepage with its mission and impact collage", async () => {
   const response = await render();
   assert.equal(response.status, 200);
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
@@ -23,14 +23,19 @@ test("server-renders the 3DP for Good replica", async () => {
   assert.match(html, /<title>3DP for Good \| Tools for more independent care<\/title>/i);
   assert.match(html, /3DP FOR GOOD/);
   assert.match(html, /Make/);
-  assert.match(html, /printer-loop\.mp4/);
+  assert.match(html, /Make more possible\./);
+  assert.match(html, /We make and donate everyday assistive tools/);
+  assert.match(html, /masonic-visit-03\.jpg/);
+  assert.match(html, /class-workshop-01\.jpg/);
+  assert.match(html, /objects printed/);
+  assert.match(html, /hours taught/);
   assert.doesNotMatch(html, /codex-preview|Your site is taking shape|SkeletonPreview/);
 });
 
-test("ships the reference media and downloadable models", async () => {
+test("ships the photos, logos, and original model previews", async () => {
   const assets = [
     "../public/assets/bach-logo.png",
-    "../public/assets/printer-loop.mp4",
+    "../public/assets/masonic-visit-03.jpg",
     "../public/assets/class-workshop-01.jpg",
     "../public/assets/ohlone-cad-club.png",
     "../public/assets/kaavin-prasanna.png",

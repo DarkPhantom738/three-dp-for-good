@@ -1,0 +1,120 @@
+.ph-root {
+  --ph-duration: 4.8s;
+  width: 100%;
+  max-width: 650px;
+  min-width: 0;
+  container-type: inline-size;
+  padding-top: 32px;
+}
+
+.ph-stage {
+  position: relative;
+}
+
+.ph-root .ph-heading {
+  position: relative;
+  margin: 0;
+  padding: 0 0 .11em;
+  max-width: none;
+  color: #151719;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: clamp(3.25rem, 18cqi, 7.25rem);
+  font-weight: 800;
+  line-height: .94;
+  letter-spacing: -.065em;
+  text-transform: none;
+}
+
+.ph-line {
+  display: block;
+}
+
+.ph-outline {
+  display: block;
+  color: transparent;
+  -webkit-text-stroke: 1px #15171955;
+}
+
+.ph-fill {
+  position: absolute;
+  inset: 0;
+  display: block;
+  clip-path: inset(100% 0 0);
+  animation: ph-build var(--ph-duration) linear .25s both;
+}
+
+.ph-fill .ph-line:last-child {
+  color: #5267c9;
+}
+
+.ph-gantry {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  height: 0;
+  pointer-events: none;
+  animation: ph-rise var(--ph-duration) linear .25s both;
+}
+
+.ph-rail {
+  position: absolute;
+  inset: auto 0 30px;
+  height: 1px;
+  background: #15171922;
+}
+
+.ph-nozzle {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  overflow: visible;
+  color: #151719;
+  animation: ph-traverse .4s ease-in-out .25s 12 alternate both;
+}
+
+.ph-replay {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: .5rem;
+  min-height: 44px;
+  margin: .35rem 0 0;
+  padding: .5rem 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: #565854;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-size: .65rem;
+  font-weight: 400;
+  line-height: 1.3;
+  letter-spacing: .025em;
+  text-transform: none;
+}
+
+.ph-replay:hover { color: #5267c9; }
+.ph-replay:focus-visible { outline: 2px solid #5267c9; outline-offset: 5px; }
+
+@keyframes ph-build {
+  from { clip-path: inset(100% 0 0); }
+  to { clip-path: inset(0); }
+}
+
+@keyframes ph-rise {
+  0% { top: 100%; opacity: 0; }
+  3% { opacity: 1; }
+  94% { opacity: 1; }
+  100% { top: 0; opacity: 0; }
+}
+
+@keyframes ph-traverse {
+  from { left: 0; }
+  to { left: calc(100% - 32px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ph-fill { animation: none; clip-path: none; }
+  .ph-gantry, .ph-replay { display: none; animation: none; }
+  .ph-nozzle { animation: none; }
+}
