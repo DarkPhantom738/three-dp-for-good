@@ -181,10 +181,15 @@ function HomeView({ onNavigate }: { onNavigate: (next: View) => void }) {
         </div>
         <div className="home-visual">
           <div className="home-video-frame"><video autoPlay muted loop playsInline aria-label="A 3D printer making an assistive tool"><source src="/assets/printer-loop.mp4" type="video/mp4" /></video><span className="frame-corner">↘</span></div>
-          <div className="printer-stats" aria-label="3DP for Good impact statistics">
-            <div className="printed-stat"><strong>100<span>+</span></strong><span>objects</span></div><div className="printed-stat"><strong>1</strong><span>drive</span></div><div className="printed-stat"><strong>2</strong><span>partners</span></div><div className="printed-stat"><strong>4<span>+</span></strong><span>designs</span></div><div className="printed-stat"><strong>60<span>+</span></strong><span>volunteer<br />hours</span></div>
-          </div>
         </div>
+      </div>
+      <div className="impact-heading"><span>Impact so far</span><span>Made · shared · taught</span></div>
+      <div className="printer-stats" aria-label="3DP for Good impact statistics">
+        <div className="printed-stat"><strong>100<span>+</span></strong><span>objects printed</span></div>
+        <div className="printed-stat"><strong>3</strong><span>community drives</span></div>
+        <div className="printed-stat"><strong>60<span>+</span></strong><span>hours taught</span></div>
+        <div className="printed-stat"><strong>4<span>+</span></strong><span>designs</span></div>
+        <div className="printed-stat"><strong>2</strong><span>partners</span></div>
       </div>
       <div className="home-bottom"><span>Bay Area, California</span><span>501(c)(3) pending organization</span></div>
     </section>
