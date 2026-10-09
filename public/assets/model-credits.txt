@@ -8,9 +8,12 @@ Original: Expanding Rings & Spheres by kame
 Source: https://www.printables.com/model/956821-expanding-rings-spheres
 License: Creative Commons Attribution-NonCommercial 4.0 International
 https://creativecommons.org/licenses/by-nc/4.0/
-Files: motion-sphere-models.zip and motion-sphere.webp
+Files: motion-sphere-models.zip, motion-sphere-preview.stl, motion-sphere-parts/*
 The archive contains the creator's 22 unchanged STL files and PDF guide.
-The preview photo is by kame, unchanged.
+The individual preview files are unchanged copies of the original parts.
+motion-sphere-preview.stl arranges simplified copies of the 22 parts on a grid.
+This is a parts layout, not an assembled sphere. Original geometry is retained
+in the individual part views and in the downloadable archive.
 
 Extending reacher
 Original: Lazy-Tongs Snapping Dragon - extending scissor grabber

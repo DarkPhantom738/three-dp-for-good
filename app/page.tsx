@@ -62,7 +62,7 @@ type WorkModel = {
   category: string;
   description: string;
   file?: string;
-  image?: string;
+  parts?: string[];
   download: string;
   downloadLabel: string;
   note?: string;
@@ -90,10 +90,11 @@ const workModels: WorkModel[] = [
     name: "Motion sphere",
     category: "Hand movement + fidget",
     description: "Pull the linked rings apart, then press them back together. The repeated opening and closing gives your hands and fingers a simple movement to practise and doubles as a fidget activity.",
-    image: "/assets/motion-sphere.webp",
+    file: "motion-sphere-preview.stl",
+    parts: ["10gon_a", "10gon_b", "10gon_c", "12gon_a", "12gon_b", "12gon_c", "12gon_l", "12gon_r", "5gon_a", "5gon_b", "5gon_l", "5gon_r", "6gon_a", "6gon_b", "8gon_a", "8gon_b", "8gon_l", "8gon_r", "hub_120", "hub_60", "hub_90", "lock"],
     download: "/assets/motion-sphere-models.zip",
     downloadLabel: "Download model set",
-    note: "Includes 22 STL parts and the creator’s assembly guide.",
+    note: "Preview the 22 assembly parts or choose one to inspect. The download includes all parts and the assembly guide.",
     credit: { creator: "kame", url: "https://www.printables.com/model/956821-expanding-rings-spheres", license: "CC BY-NC 4.0", licenseUrl: "https://creativecommons.org/licenses/by-nc/4.0/" },
   },
   {
@@ -118,6 +119,15 @@ const workModels: WorkModel[] = [
   },
 ];
 
+function WorkModelPreview({ model }: { model: WorkModel }) {
+  const [part, setPart] = useState("");
+  const file = part ? `motion-sphere-parts/${part}.stl` : model.file!;
+  return <>
+    <ModelViewer key={file} file={file} label={`${model.name}${part ? `, ${part}` : ""} interactive 3D preview`} badge={model.parts && !part ? "STL assembly parts" : "STL preview"} />
+    {model.parts && <select className="model-part-select" aria-label="Motion sphere part to preview" value={part} onChange={(event) => setPart(event.target.value)}><option value="">All 22 parts</option>{model.parts.map((name) => <option key={name} value={name}>{name.replaceAll("_", " ")}</option>)}</select>}
+  </>;
+}
+
 function WorkView({ onNavigate }: { onNavigate: (next: View) => void }) {
   return (
     <section className="tab-page work-page" aria-labelledby="work-title">
@@ -128,12 +138,12 @@ function WorkView({ onNavigate }: { onNavigate: (next: View) => void }) {
           <article className="design-card design-blue" key={model.name} aria-labelledby={`model-title-${index}`}>
             <div className="design-card-head"><span>{String(index + 1).padStart(2, "0")} / {model.category}</span></div>
             <div className="design-visual">
-              {model.file ? <ModelViewer file={model.file} label={`${model.name} interactive 3D preview`} /> : <><img className="design-photo" src={model.image} alt="Blue linked rings assembled into an expanding sphere, photographed by kame." loading="lazy" /><span className="model-badge">Assembled model · photo by kame</span></>}
+              <WorkModelPreview model={model} />
             </div>
             <a className="design-download" href={model.download} download aria-label={`${model.downloadLabel}: ${model.name}`}>{model.downloadLabel} <Arrow /></a>
             <div className="design-card-copy">
               <div><h3 id={`model-title-${index}`}>{model.name}</h3><p>{model.description}</p>{model.note && <p className="design-note">{model.note}</p>}</div>
-              {model.credit && <p className="design-credit">Design{model.image ? " and photo" : ""} by <a href={model.credit.url} target="_blank" rel="noreferrer">{model.credit.creator}</a><br /><a href={model.credit.licenseUrl} target="_blank" rel="noreferrer">{model.credit.license}</a> · <a href={model.credit.url} target="_blank" rel="noreferrer">Original model <Arrow /></a></p>}
+              {model.credit && <p className="design-credit">Design by <a href={model.credit.url} target="_blank" rel="noreferrer">{model.credit.creator}</a><br /><a href={model.credit.licenseUrl} target="_blank" rel="noreferrer">{model.credit.license}</a> · <a href={model.credit.url} target="_blank" rel="noreferrer">Original model <Arrow /></a></p>}
             </div>
           </article>
         ))}

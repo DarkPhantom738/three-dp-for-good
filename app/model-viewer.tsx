@@ -59,7 +59,7 @@ function parseStl(buffer: ArrayBuffer): Model {
   };
 }
 
-export function ModelViewer({ file, label }: { file: string; label: string }) {
+export function ModelViewer({ file, label, badge = "STL preview" }: { file: string; label: string; badge?: string }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const modelRef = useRef<Model | null>(null);
   const rotationRef = useRef({ x: -0.35, y: 0.55 });
@@ -155,9 +155,6 @@ export function ModelViewer({ file, label }: { file: string; label: string }) {
     }
     context.strokeStyle = solid ? "#151719" : "#5267c9";
     context.lineWidth = solid ? 0.65 : 0.9;
-    // Dense meshes are shaded without black facet edges, which would obscure
-    // the surface. Wireframe still displays every edge of the source geometry.
-    const outline = solid && order.length <= 10000;
     let wireframeFaces = 0;
     if (!solid) context.beginPath();
     for (const triangle of order) {
@@ -169,11 +166,9 @@ export function ModelViewer({ file, label }: { file: string; label: string }) {
       context.closePath();
       if (solid) {
         const shade = Math.max(0, Math.min(40, Math.round((depths[triangle] + 0.5) * 35)));
-        context.fillStyle = outline
-          ? `rgb(${244 - shade}, ${242 - shade}, ${235 - shade})`
-          : `rgb(${114 - shade}, ${134 - shade}, ${223 - shade})`;
+        context.fillStyle = `rgb(${244 - shade}, ${242 - shade}, ${235 - shade})`;
         context.fill();
-        if (outline) context.stroke();
+        context.stroke();
       } else if (++wireframeFaces % 128 === 0) {
         // Keep each stroked path small so dense meshes do not stall the page.
         context.stroke();
@@ -233,7 +228,7 @@ export function ModelViewer({ file, label }: { file: string; label: string }) {
       <canvas ref={canvasRef} tabIndex={0} role="img" aria-label={`${label}. Drag or use arrow keys to rotate.`} onKeyDown={handleKeyDown} onPointerDown={handlePointerDown} onPointerMove={handlePointerMove} onPointerUp={stopDragging} onPointerCancel={stopDragging} onPointerLeave={stopDragging} onLostPointerCapture={stopDragging} />
       {status !== "ready" && <span role="status" style={{ position: "absolute", inset: 0, display: "grid", placeItems: "center", padding: "2rem", textAlign: "center", pointerEvents: "none", color: "#5267c9", fontSize: ".8rem", fontWeight: 700 }}>{status === "error" ? "Preview unavailable. You can still download the model below." : status === "loading" ? "Loading model…" : "Preview loads when in view"}</span>}
       <span className="model-hint">Drag to rotate</span>
-      <span className="model-badge">STL preview</span>
+      <span className="model-badge">{badge}</span>
       <button className="model-mode-toggle" type="button" disabled={status !== "ready"} onClick={() => setSolid((value) => !value)}>{solid ? "View wireframe" : "View solid"}</button>
     </div>
   );
